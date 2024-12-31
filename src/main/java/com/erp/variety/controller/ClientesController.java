@@ -68,6 +68,15 @@ public class ClientesController {
 	
 	@PostMapping("/editClient")
 	public void editClient(Clientes cliente) {
+		ClientesJDBC clientesJDBC = new ClientesJDBC();
+		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
+		try {
+			clientesJDBC.edit(cliente);
+		} catch (SQLException e) {
+			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			clientesDaoResponse.setDescripcion(e.getMessage());
+			
+		}
 		
 	}
 	
