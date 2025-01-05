@@ -13,18 +13,7 @@ import lombok.Setter;
 @Data
 
 public class DistribuidorDaoResponse {
-	public String IdDistribuidor;
-	public String Nombre;
-	public String Apellido;
-	public String Direccion;
-	public String Departamento;
-	public String Municipio;
-	public String Sexo;
-	public String Dui;
-	public String Telefono;
-	public String Celular;
-	public String whatsapp;
-	public String Zona;
-	public String Email;
+	public String codigo;
+	public String descripcion;
 	public List<Distribuidor> Distribuidores;
 }

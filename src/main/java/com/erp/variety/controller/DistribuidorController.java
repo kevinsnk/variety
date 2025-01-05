@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.variety.dao.DistribuidorDaoResponse;
-import com.erp.variety.dao.ZonaDaoResponse;
 import com.erp.variety.jdbc.DistribuidorJDBC;
-import com.erp.variety.jdbc.ZonaJDBC;
 import com.erp.variety.model.Distribuidor;
-import com.erp.variety.model.Zona;
 
 @RestController
 @RequestMapping("/Distribuidor")
@@ -27,12 +24,12 @@ public class DistribuidorController {
 		List<Distribuidor> listadistribuidor = new ArrayList<>();
 		try {
 			listadistribuidor = distribuidorJDBC.findAll();
-			distribuidorDaoResponse.setIdDistribuidor("0");
-			distribuidorDaoResponse.setNombre("EXITO");
+			distribuidorDaoResponse.setCodigo("0");
+			distribuidorDaoResponse.setDescripcion("EXITO");
 			distribuidorDaoResponse.setDistribuidores(listadistribuidor);
 		} catch (SQLException e) {
-			distribuidorDaoResponse.setIdDistribuidor(String.valueOf(e.getErrorCode()));
-			distribuidorDaoResponse.setNombre(e.getMessage());
+			distribuidorDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			distribuidorDaoResponse.setDescripcion(e.getMessage());
 		}
 		
 		return distribuidorDaoResponse;
@@ -49,12 +46,12 @@ public class DistribuidorController {
 			if(distribuidor != null) {
 				listadistribuidor.add(distribuidor);
 			}
-			distribuidorDaoResponse.setIdDistribuidor("0");
-			distribuidorDaoResponse.setNombre("EXITO");
+			distribuidorDaoResponse.setCodigo("0");
+			distribuidorDaoResponse.setDescripcion("EXITO");
 			distribuidorDaoResponse.setDistribuidores(listadistribuidor);
 		} catch (SQLException e) {
-			distribuidorDaoResponse.setIdDistribuidor(String.valueOf(e.getErrorCode()));
-			distribuidorDaoResponse.setNombre(e.getMessage());
+			distribuidorDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			distribuidorDaoResponse.setDescripcion(e.getMessage());
 		}
 		return distribuidor;
 	}
@@ -76,8 +73,8 @@ public class DistribuidorController {
 		try {
 			distribuidorJDBC.edit(distribuidor);
 		} catch (SQLException e) {
-			distribuidorDaoResponse.setIdDistribuidor(String.valueOf(e.getErrorCode()));
-			distribuidorDaoResponse.setNombre(e.getMessage());
+			distribuidorDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			distribuidorDaoResponse.setDescripcion(e.getMessage());
 			
 		}
 		

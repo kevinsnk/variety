@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.variety.dao.PaqueteDaoResponse;
-import com.erp.variety.dao.ZonaDaoResponse;
 import com.erp.variety.jdbc.PaqueteJDBC;
-import com.erp.variety.jdbc.ZonaJDBC;
 import com.erp.variety.model.Paquete;
-import com.erp.variety.model.Zona;
 
 
 @RestController
@@ -29,15 +26,12 @@ public class PaqueteController {
 		List<Paquete> listapaquetes = new ArrayList<>();
 		try {
 			listapaquetes = paqueteJDBC.findAll();
-			paqueteDaoResponse.setIdPaquete("0");
+			paqueteDaoResponse.setCodigo("0");
 			paqueteDaoResponse.setDescripcion("EXITO");
-			paqueteDaoResponse.setPCosto(0);
-			paqueteDaoResponse.setPVenta(0);
-			
 			paqueteDaoResponse.setPaquete(listapaquetes);
 			
 		} catch (SQLException e) {
-			paqueteDaoResponse.setIdPaquete(String.valueOf(e.getErrorCode()));
+			paqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			paqueteDaoResponse.setDescripcion(e.getMessage());
 		}
 		
@@ -55,14 +49,12 @@ public class PaqueteController {
 			if(paquete != null) {
 				listapaquetes.add(paquete);
 			}
-			paqueteDaoResponse.setIdPaquete("0");
+			paqueteDaoResponse.setCodigo("0");
 			paqueteDaoResponse.setDescripcion("EXITO");
-			paqueteDaoResponse.setPCosto(0);
-			paqueteDaoResponse.setPVenta(0);
 			paqueteDaoResponse.setPaquete(listapaquetes);
 			
 		} catch (SQLException e) {
-			paqueteDaoResponse.setIdPaquete(String.valueOf(e.getErrorCode()));
+			paqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			paqueteDaoResponse.setDescripcion(e.getMessage());
 		}
 		return paquete;
@@ -85,7 +77,7 @@ public class PaqueteController {
 		try {
 			paqueteJDBC.edit(paquete);
 		} catch (SQLException e) {
-			paqueteDaoResponse.setIdPaquete(String.valueOf(e.getErrorCode()));
+			paqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			paqueteDaoResponse.setDescripcion(e.getMessage());
 			
 		}

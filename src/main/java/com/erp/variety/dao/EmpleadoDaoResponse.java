@@ -13,14 +13,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class EmpleadoDaoResponse {
-	public int IdEmpleado;
-	public String NombreEmpleado;
-	public String Apellidoempleado;
-	public String DireccionEmpleado;
-	public String TelefonoEmpleado;
-	public String CelularEmpleado;
-	public String emailEmpleado;
-	public int Activo;
-	public String TipoEmpleado;
+	public String codigo;
+	public String descripcion;
 	public List<Empleado> empleados;
 }

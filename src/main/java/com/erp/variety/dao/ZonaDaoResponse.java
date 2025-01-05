@@ -15,8 +15,7 @@ import lombok.Setter;
 
 public class ZonaDaoResponse {
 
-	public String IdZona;
-	public String Descripcion;
-	public int idEmpleado;
+	public String codigo;
+	public String descripcion;
 	public List<Zona> zonas;
 }

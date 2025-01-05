@@ -16,10 +16,8 @@ import lombok.Setter;
 
 public class PaqueteDaoResponse {
 
-	public String IdPaquete;
-	public String Descripcion;
-	public double pCosto;
-	public double pVenta;
+	public String codigo;
+	public String descripcion;
 	public List<Paquete> paquete;
 	
 	

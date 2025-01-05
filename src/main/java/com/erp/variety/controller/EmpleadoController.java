@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.erp.variety.dao.ClientesDaoResponse;
 import com.erp.variety.dao.EmpleadoDaoResponse;
-import com.erp.variety.jdbc.ClientesJDBC;
 import com.erp.variety.jdbc.EmpleadoJDBC;
-import com.erp.variety.model.Clientes;
 import com.erp.variety.model.Empleado;
 
 @RestController
@@ -28,12 +25,12 @@ public class EmpleadoController {
 		List<Empleado> listaempleados = new ArrayList<>();
 		try {
 			listaempleados = empleadoJDBC.findAll();
-			empleadoDaoResponse.setIdEmpleado(0);
-			empleadoDaoResponse.setNombreEmpleado("EXITO");
+			empleadoDaoResponse.setCodigo("0");
+			empleadoDaoResponse.setDescripcion("EXITO");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
-			empleadoDaoResponse.setIdEmpleado((e.getErrorCode()));
-			empleadoDaoResponse.setNombreEmpleado(e.getMessage());
+			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			empleadoDaoResponse.setDescripcion(e.getMessage());
 		}
 		
 		return empleadoDaoResponse;
@@ -50,12 +47,12 @@ public class EmpleadoController {
 			if(empleado != null) {
 				listaempleados.add(empleado);
 			}
-			empleadoDaoResponse.setIdEmpleado(0);
-			empleadoDaoResponse.setNombreEmpleado("EXITO");
+			empleadoDaoResponse.setCodigo("0");
+			empleadoDaoResponse.setDescripcion("EXITO");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
-			empleadoDaoResponse.setIdEmpleado((e.getErrorCode()));
-			empleadoDaoResponse.setNombreEmpleado(e.getMessage());
+			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			empleadoDaoResponse.setDescripcion(e.getMessage());
 		}
 		return empleado;
 	}
@@ -77,8 +74,8 @@ public class EmpleadoController {
 		try {
 			empleadoJDBC.edit(empleado);
 		} catch (SQLException e) {
-			empleadoDaoResponse.setIdEmpleado((e.getErrorCode()));
-			empleadoDaoResponse.setNombreEmpleado(e.getMessage());
+			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			empleadoDaoResponse.setDescripcion(e.getMessage());
 			
 		}
 		

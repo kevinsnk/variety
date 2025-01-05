@@ -10,18 +10,14 @@ import lombok.Setter;
 
 public class Empleado {
 
-	public int IdEmpleado;
-	public String NombreEmpleado;
-	public String Apellidoempleado;
-	public String DireccionEmpleado;
-	public String TelefonoEmpleado;
-	public String CelularEmpleado;
+	public int idEmpleado;
+	public String nombreEmpleado;
+	public String apellidoempleado;
+	public String direccionEmpleado;
+	public String telefonoEmpleado;
+	public String celularEmpleado;
 	public String emailEmpleado;
-	public int Activo;
-	public String TipoEmpleado;
-	
-	
-	
-
+	public int activo;
+	public String tipoEmpleado;
 	
 }

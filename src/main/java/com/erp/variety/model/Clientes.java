@@ -30,6 +30,6 @@ public class Clientes {
 	public String latitud;
 	public String longitud;
 	public String ctaContableCliente;
-	public int idEmpleado;
+	public Empleado idEmpleado;
 	public int activo;
 }

@@ -118,7 +118,7 @@ public class ClientesJDBC extends AbstractJDBC{
 			ps.setString(19, clientes.getLatitud());
 			ps.setString(20, clientes.getLongitud());
 			ps.setString(21, clientes.getCtaContableCliente());
-			ps.setInt(22, clientes.getIdEmpleado());
+			ps.setInt(22, clientes.getIdEmpleado().getIdEmpleado());
 			ps.setInt(23, clientes.getActivo());
 
 			ps.executeUpdate();
@@ -186,7 +186,7 @@ public class ClientesJDBC extends AbstractJDBC{
 			ps.setString(18, clientes.getLatitud());
 			ps.setString(19, clientes.getLongitud());
 			ps.setString(20, clientes.getCtaContableCliente());
-			ps.setInt(21, clientes.getIdEmpleado());
+			ps.setInt(21, clientes.getIdEmpleado().getIdEmpleado());
 			ps.setInt(22, clientes.getActivo());
 			ps.setString(23, clientes.getIdCliente());
 
@@ -207,14 +207,14 @@ public class ClientesJDBC extends AbstractJDBC{
 
 	@Override
 	public void delete(Object entity) throws SQLException {
-		Clientes clientes = (Clientes) entity;
+		String cliente = (String) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "DELETE FROM dbo.Cliente\r\n"
 				+ "WHERE IdCliente = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, clientes.getIdCliente());
+			ps.setString(1, cliente.trim());
 
 
 			ps.executeUpdate();

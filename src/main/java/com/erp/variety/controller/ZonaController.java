@@ -25,11 +25,11 @@ public class ZonaController {
 		List<Zona> listaZonas = new ArrayList<>();
 		try {
 			listaZonas = zonaJDBC.findAll();
-			zonaDaoResponse.setIdZona("0");
+			zonaDaoResponse.setCodigo("0");
 			zonaDaoResponse.setDescripcion("EXITO");
 			zonaDaoResponse.setZonas(listaZonas);
 		} catch (SQLException e) {
-			zonaDaoResponse.setIdZona(String.valueOf(e.getErrorCode()));
+			zonaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			zonaDaoResponse.setDescripcion(e.getMessage());
 		}
 		
@@ -47,11 +47,11 @@ public class ZonaController {
 			if(zona != null) {
 				listaZona.add(zona);
 			}
-			zonaDaoResponse.setIdZona("0");
+			zonaDaoResponse.setCodigo("0");
 			zonaDaoResponse.setDescripcion("EXITO");
 			zonaDaoResponse.setZonas(listaZona);
 		} catch (SQLException e) {
-			zonaDaoResponse.setIdZona(String.valueOf(e.getErrorCode()));
+			zonaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			zonaDaoResponse.setDescripcion(e.getMessage());
 		}
 		return zona;
@@ -74,7 +74,7 @@ public class ZonaController {
 		try {
 			zonaJDBC.edit(zona);
 		} catch (SQLException e) {
-			zonaDaoResponse.setIdZona(String.valueOf(e.getErrorCode()));
+			zonaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			zonaDaoResponse.setDescripcion(e.getMessage());
 			
 		}
