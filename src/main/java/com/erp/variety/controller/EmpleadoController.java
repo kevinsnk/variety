@@ -58,27 +58,35 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/saveEmpleado")
-	public void saveClient(Empleado empleado) {
+	public EmpleadoDaoResponse saveClient(Empleado empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
+		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
 		try {
 			empleadoJDBC.save(empleado);
+			empleadoDaoResponse.setCodigo("0");
+			empleadoDaoResponse.setDescripcion("EXITO");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			empleadoDaoResponse.setDescripcion(e.getMessage());
 		}
+		return empleadoDaoResponse;
 	}
 	
 	@PostMapping("/editEmpleado")
-	public void editEmpleado(Empleado empleado) {
+	public EmpleadoDaoResponse editEmpleado(Empleado empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
 		try {
 			empleadoJDBC.edit(empleado);
+			empleadoDaoResponse.setCodigo("0");
+			empleadoDaoResponse.setDescripcion("EXITO");
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			empleadoDaoResponse.setDescripcion(e.getMessage());
 			
 		}
-		
+		return empleadoDaoResponse;
 	}
 	
 	@PostMapping("/deleteEmpleado")
