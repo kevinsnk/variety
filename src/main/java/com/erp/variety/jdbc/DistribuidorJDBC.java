@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.erp.variety.model.Clientes;
 import com.erp.variety.model.Distribuidor;
 import com.erp.variety.util.SqlConn;
 
@@ -103,8 +102,9 @@ public class DistribuidorJDBC extends AbstractJDBC{
 	}
 
 	@Override
-	public void save(Object entity) throws SQLException {
+	public String save(Object entity) throws SQLException {
 		Distribuidor distribuidor = (Distribuidor) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "INSERT INTO dbo.Distribuidor(IdDistribuidor,Nombre,Apellido,Direccion,\r\n"
@@ -139,11 +139,14 @@ public class DistribuidorJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void edit(Object entity) throws SQLException {
+	public String edit(Object entity) throws SQLException {
 		Distribuidor distribuidor = (Distribuidor) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "UPDATE dbo.Distribuidor\r\n"
@@ -189,11 +192,13 @@ public class DistribuidorJDBC extends AbstractJDBC{
 			}
 		}
 		
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void delete(Object entity) throws SQLException {
+	public String delete(Object entity) throws SQLException {
 		Distribuidor distribuidor = (Distribuidor) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "DELETE FROM dbo.Distribuidor\r\n"
@@ -215,6 +220,8 @@ public class DistribuidorJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRespuesta;
 	}
 	
 }

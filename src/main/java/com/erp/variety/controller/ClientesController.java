@@ -60,13 +60,14 @@ public class ClientesController {
 	public ClientesDaoResponse saveClient(Clientes cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
+		String codigoRespuesta = "0";
 		try {
-			clientesJDBC.save(cliente);
-			clientesDaoResponse.setCodigo("0");
+			codigoRespuesta = clientesJDBC.save(cliente);
+			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion("EXITO");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion(e.getMessage());
 		}
 		
@@ -77,12 +78,13 @@ public class ClientesController {
 	public ClientesDaoResponse editClient(Clientes cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
+		String codigoRespuesta = "0";
 		try {
-			clientesJDBC.edit(cliente);
-			clientesDaoResponse.setCodigo("0");
+			codigoRespuesta = clientesJDBC.edit(cliente);
+			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion("EXITO");
-		} catch (SQLException e) {
-			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+		} catch (Exception e) {
+			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion(e.getMessage());
 			e.printStackTrace();
 		}
@@ -93,17 +95,18 @@ public class ClientesController {
 	public ClientesDaoResponse deleteClient(String cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
+		String codigoRespuesta = "0";
 		try {
 			if(cliente != null && !cliente.trim().equals("")) {
-				clientesJDBC.delete(cliente);
-				clientesDaoResponse.setCodigo("0");
+				codigoRespuesta = clientesJDBC.delete(cliente);
+				clientesDaoResponse.setCodigo(codigoRespuesta);
 				clientesDaoResponse.setDescripcion("EXITO");
 			}else {
 				clientesDaoResponse.setCodigo("1");
 				clientesDaoResponse.setDescripcion("Debe de mandar un código de cliente valido.");
 			}
 		} catch (SQLException e) {
-			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion(e.getMessage());
 			e.printStackTrace();
 		}

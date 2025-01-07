@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.erp.variety.model.Empleado;
-import com.erp.variety.model.Zona;
 import com.erp.variety.util.SqlConn;
 
 public class EmpleadoJDBC extends AbstractJDBC{
@@ -93,8 +92,9 @@ public class EmpleadoJDBC extends AbstractJDBC{
 	}
 
 	@Override
-	public void save(Object entity) throws SQLException {
+	public String save(Object entity) throws SQLException {
 		Empleado empleado = (Empleado) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "INSERT INTO dbo.Empleado(IdEmpleado, NombreEmpleado, ApellidoEmpleado, direccionEmpleado, TelefonoEmpleado, CelularEmpleado, emailEmpleado, Activo, TipoEmpleado) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -124,11 +124,13 @@ public class EmpleadoJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void edit(Object entity) throws SQLException {
+	public String edit(Object entity) throws SQLException {
 		Empleado empleado = (Empleado) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "UPDATE dbo.Empleado\r\n"
@@ -167,11 +169,13 @@ public class EmpleadoJDBC extends AbstractJDBC{
 			}
 		}
 		
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void delete(Object entity) throws SQLException {
+	public String delete(Object entity) throws SQLException {
 		Empleado empleado = (Empleado) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "DELETE FROM dbo.Empleado\r\n"
@@ -193,5 +197,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRespuesta;
 	}
 }

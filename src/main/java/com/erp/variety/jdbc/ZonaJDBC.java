@@ -78,8 +78,9 @@ public class ZonaJDBC extends AbstractJDBC{
 	}
 
 	@Override
-	public void save(Object entity) throws SQLException {
+	public String save(Object entity) throws SQLException {
 		Zona zona = (Zona) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "INSERT INTO dbo.Zona(Idzona,Descripcion,idEmpleado) VALUES(?,?,?)";
@@ -102,11 +103,14 @@ public class ZonaJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void edit(Object entity) throws SQLException {
+	public String edit(Object entity) throws SQLException {
 		Zona zona = (Zona) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "UPDATE dbo.Zona\r\n"
@@ -132,11 +136,13 @@ public class ZonaJDBC extends AbstractJDBC{
 			}
 		}
 		
+		return codigoRespuesta;
 	}
 
 	@Override
-	public void delete(Object entity) throws SQLException {
+	public String delete(Object entity) throws SQLException {
 		Zona zona = (Zona) entity;
+		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "DELETE FROM dbo.Zona\r\n"
@@ -158,5 +164,7 @@ public class ZonaJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRespuesta;
 	}
 }

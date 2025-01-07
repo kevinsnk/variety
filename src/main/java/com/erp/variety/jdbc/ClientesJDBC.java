@@ -85,10 +85,11 @@ public class ClientesJDBC extends AbstractJDBC{
 	}
 
 	@Override
-	public void save(Object entity) throws SQLException {
+	public String save(Object entity) throws SQLException {
 		Clientes clientes = (Clientes) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
+		String codigoRetorno = "0";
 		String query = "INSERT INTO dbo.Cliente(IdCliente,nombreCliente, nombreComercial, grupoCliente,\r\n"
 				+ "DireccionCliente, PaisCliente, DepartamentoCliente, MunicipioCliente, \r\n"
 				+ "TelefonoCliente, CelularCliente, EmailCliente, NrcCliente, NitCliente, DuiCliente,\r\n"
@@ -133,13 +134,16 @@ public class ClientesJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		
+		return codigoRetorno;
 	}
 
 	@Override
-	public void edit(Object entity) throws SQLException {
+	public String edit(Object entity) throws SQLException {
 		Clientes clientes = (Clientes) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
+		String codigoRetorno = "0";
 		String query = "UPDATE dbo.Cliente\r\n"
 				+ "SET nombreCliente= ? \r\n"
 				+ "nombreComercial= ? \r\n"
@@ -202,14 +206,15 @@ public class ClientesJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
-		
+		return codigoRetorno;
 	}
 
 	@Override
-	public void delete(Object entity) throws SQLException {
+	public String delete(Object entity) throws SQLException {
 		String cliente = (String) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
+		String codigoRetorno = "0";
 		String query = "DELETE FROM dbo.Cliente\r\n"
 				+ "WHERE IdCliente = ?";
 		try {
@@ -229,6 +234,7 @@ public class ClientesJDBC extends AbstractJDBC{
 				e.printStackTrace();
 			}
 		}
+		return codigoRetorno;
 	}
 
 }

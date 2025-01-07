@@ -7,7 +7,7 @@ public abstract class AbstractJDBC {
 
 	public abstract List<?> findAll() throws SQLException;
 	public abstract Object getRecord(Object entity) throws SQLException;
-	public abstract void save(Object entity) throws SQLException;
-	public abstract void edit(Object entity) throws SQLException;
-	public abstract void delete(Object entity) throws SQLException;
+	public abstract String save(Object entity) throws SQLException;
+	public abstract String edit(Object entity) throws SQLException;
+	public abstract String delete(Object entity) throws SQLException;
 }
