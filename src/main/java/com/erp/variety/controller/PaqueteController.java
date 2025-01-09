@@ -27,7 +27,7 @@ public class PaqueteController {
 		try {
 			listapaquetes = paqueteJDBC.findAll();
 			paqueteDaoResponse.setCodigo("0");
-			paqueteDaoResponse.setDescripcion("EXITO");
+			paqueteDaoResponse.setDescripcion("success");
 			paqueteDaoResponse.setPaquete(listapaquetes);
 			
 		} catch (SQLException e) {
@@ -50,7 +50,7 @@ public class PaqueteController {
 				listapaquetes.add(paquete);
 			}
 			paqueteDaoResponse.setCodigo("0");
-			paqueteDaoResponse.setDescripcion("EXITO");
+			paqueteDaoResponse.setDescripcion("success");
 			paqueteDaoResponse.setPaquete(listapaquetes);
 			
 		} catch (SQLException e) {

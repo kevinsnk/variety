@@ -167,4 +167,10 @@ public class ZonaJDBC extends AbstractJDBC{
 		
 		return codigoRespuesta;
 	}
+
+	@Override
+	public String getCorrelativo() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

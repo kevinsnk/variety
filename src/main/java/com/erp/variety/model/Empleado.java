@@ -12,7 +12,7 @@ public class Empleado {
 
 	public int idEmpleado;
 	public String nombreEmpleado;
-	public String apellidoempleado;
+	public String apellidoEmpleado;
 	public String direccionEmpleado;
 	public String telefonoEmpleado;
 	public String celularEmpleado;

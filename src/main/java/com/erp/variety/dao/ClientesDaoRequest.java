@@ -1,4 +1,4 @@
-package com.erp.variety.model;
+package com.erp.variety.dao;
 
 import lombok.Data;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class Clientes {
+public class ClientesDaoRequest {
 
 	public String idCliente;
 	public String nombreCliente;
@@ -30,7 +30,7 @@ public class Clientes {
 	public String latitud;
 	public String longitud;
 	public String ctaContableCliente;
-	public Empleado idEmpleado;
-	public String dirEnvio;
+	public int idEmpleado;
 	public int activo;
+
 }

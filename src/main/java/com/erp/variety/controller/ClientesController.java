@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.ClientesDaoRequest;
 import com.erp.variety.dao.ClientesDaoResponse;
 import com.erp.variety.jdbc.ClientesJDBC;
 import com.erp.variety.model.Clientes;
@@ -25,7 +27,7 @@ public class ClientesController {
 		try {
 			listaClientes = clientesJDBC.findAll();
 			clientesDaoResponse.setCodigo("0");
-			clientesDaoResponse.setDescripcion("EXITO");
+			clientesDaoResponse.setDescripcion("success");
 			clientesDaoResponse.setClientes(listaClientes);
 		} catch (SQLException e) {
 			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -47,7 +49,7 @@ public class ClientesController {
 				listaClientes.add(clientes);
 			}
 			clientesDaoResponse.setCodigo("0");
-			clientesDaoResponse.setDescripcion("EXITO");
+			clientesDaoResponse.setDescripcion("success");
 			clientesDaoResponse.setClientes(listaClientes);
 		} catch (SQLException e) {
 			clientesDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -57,14 +59,22 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/saveClient")
-	public ClientesDaoResponse saveClient(Clientes cliente) {
+	public ClientesDaoResponse saveClient(@RequestBody ClientesDaoRequest cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
 		String codigoRespuesta = "0";
+		String idCliente = "0";
 		try {
+			System.out.println("cliente " + cliente);
+			idCliente = clientesJDBC.getCorrelativo();
+			cliente.setIdCliente(idCliente);
 			codigoRespuesta = clientesJDBC.save(cliente);
+			if(codigoRespuesta.equals("0")) {
+				clientesDaoResponse.setDescripcion("success");
+			}else {
+				clientesDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
+			}
 			clientesDaoResponse.setCodigo(codigoRespuesta);
-			clientesDaoResponse.setDescripcion("EXITO");
 		} catch (Exception e) {
 			e.printStackTrace();
 			clientesDaoResponse.setCodigo(codigoRespuesta);
@@ -75,14 +85,18 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/editClient")
-	public ClientesDaoResponse editClient(Clientes cliente) {
+	public ClientesDaoResponse editClient(ClientesDaoRequest cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
 		String codigoRespuesta = "0";
 		try {
 			codigoRespuesta = clientesJDBC.edit(cliente);
+			if(codigoRespuesta.equals("0")) {
+				clientesDaoResponse.setDescripcion("success");
+			}else {
+				clientesDaoResponse.setDescripcion("Error al querer guardar los cambios del cliente en la tabla");
+			}
 			clientesDaoResponse.setCodigo(codigoRespuesta);
-			clientesDaoResponse.setDescripcion("EXITO");
 		} catch (Exception e) {
 			clientesDaoResponse.setCodigo(codigoRespuesta);
 			clientesDaoResponse.setDescripcion(e.getMessage());
@@ -99,8 +113,12 @@ public class ClientesController {
 		try {
 			if(cliente != null && !cliente.trim().equals("")) {
 				codigoRespuesta = clientesJDBC.delete(cliente);
+				if(codigoRespuesta.equals("0")) {
+					clientesDaoResponse.setDescripcion("success");
+				}else {
+					clientesDaoResponse.setDescripcion("Error al querer eliminar cliente en la tabla");
+				}
 				clientesDaoResponse.setCodigo(codigoRespuesta);
-				clientesDaoResponse.setDescripcion("EXITO");
 			}else {
 				clientesDaoResponse.setCodigo("1");
 				clientesDaoResponse.setDescripcion("Debe de mandar un código de cliente valido.");

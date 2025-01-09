@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ import com.erp.variety.jdbc.EmpleadoJDBC;
 import com.erp.variety.model.Empleado;
 
 @RestController
-@RequestMapping("/empleado")
+@RequestMapping("/empleados")
 public class EmpleadoController {
 
 
@@ -26,7 +27,7 @@ public class EmpleadoController {
 		try {
 			listaempleados = empleadoJDBC.findAll();
 			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("EXITO");
+			empleadoDaoResponse.setDescripcion("success");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -48,7 +49,7 @@ public class EmpleadoController {
 				listaempleados.add(empleado);
 			}
 			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("EXITO");
+			empleadoDaoResponse.setDescripcion("success");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -58,13 +59,18 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/saveEmpleado")
-	public EmpleadoDaoResponse saveClient(Empleado empleado) {
+	public EmpleadoDaoResponse saveClient(@RequestBody Empleado empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
+		String codigoRespuesta = "0";
 		try {
-			empleadoJDBC.save(empleado);
-			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("EXITO");
+			codigoRespuesta = empleadoJDBC.save(empleado);
+			if(codigoRespuesta.equals("0")) {
+				empleadoDaoResponse.setDescripcion("success");
+			}else {
+				empleadoDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
+			}
+			empleadoDaoResponse.setCodigo(codigoRespuesta);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -74,13 +80,18 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/editEmpleado")
-	public EmpleadoDaoResponse editEmpleado(Empleado empleado) {
+	public EmpleadoDaoResponse editEmpleado(@RequestBody Empleado empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
+		String codigoRespuesta = "0";
 		try {
-			empleadoJDBC.edit(empleado);
-			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("EXITO");
+			codigoRespuesta = empleadoJDBC.edit(empleado);
+			if(codigoRespuesta.equals("0")) {
+				empleadoDaoResponse.setDescripcion("success");
+			}else {
+				empleadoDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
+			}
+			empleadoDaoResponse.setCodigo(codigoRespuesta);
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			empleadoDaoResponse.setDescripcion(e.getMessage());
@@ -90,7 +101,7 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/deleteEmpleado")
-	public void deleteEmpleado(Empleado empleado) {
+	public void deleteEmpleado(@RequestBody Empleado empleado) {
 		
 	}
 }

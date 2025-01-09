@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.erp.variety.dao.ClientesDaoRequest;
 import com.erp.variety.model.Clientes;
 import com.erp.variety.util.SqlConn;
 
@@ -86,7 +87,7 @@ public class ClientesJDBC extends AbstractJDBC{
 
 	@Override
 	public String save(Object entity) throws SQLException {
-		Clientes clientes = (Clientes) entity;
+		ClientesDaoRequest clientes = (ClientesDaoRequest) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
@@ -119,7 +120,7 @@ public class ClientesJDBC extends AbstractJDBC{
 			ps.setString(19, clientes.getLatitud());
 			ps.setString(20, clientes.getLongitud());
 			ps.setString(21, clientes.getCtaContableCliente());
-			ps.setInt(22, clientes.getIdEmpleado().getIdEmpleado());
+			ps.setInt(22, clientes.getIdEmpleado());
 			ps.setInt(23, clientes.getActivo());
 
 			ps.executeUpdate();
@@ -127,6 +128,7 @@ public class ClientesJDBC extends AbstractJDBC{
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRetorno = "2";
 		} finally {
 			try {
 				conn.close();
@@ -140,7 +142,7 @@ public class ClientesJDBC extends AbstractJDBC{
 
 	@Override
 	public String edit(Object entity) throws SQLException {
-		Clientes clientes = (Clientes) entity;
+		ClientesDaoRequest clientes = (ClientesDaoRequest) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
@@ -190,7 +192,7 @@ public class ClientesJDBC extends AbstractJDBC{
 			ps.setString(18, clientes.getLatitud());
 			ps.setString(19, clientes.getLongitud());
 			ps.setString(20, clientes.getCtaContableCliente());
-			ps.setInt(21, clientes.getIdEmpleado().getIdEmpleado());
+			ps.setInt(21, clientes.getIdEmpleado());
 			ps.setInt(22, clientes.getActivo());
 			ps.setString(23, clientes.getIdCliente());
 
@@ -199,6 +201,7 @@ public class ClientesJDBC extends AbstractJDBC{
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRetorno = "2";
 		} finally {
 			try {
 				conn.close();
@@ -227,6 +230,7 @@ public class ClientesJDBC extends AbstractJDBC{
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRetorno = "2";
 		} finally {
 			try {
 				conn.close();
@@ -235,6 +239,35 @@ public class ClientesJDBC extends AbstractJDBC{
 			}
 		}
 		return codigoRetorno;
+	}
+
+	@Override
+	public String getCorrelativo() throws SQLException {
+		String correlativo = "";
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT count(idcliente) + 1 as correlativo "
+				+ "FROM dbo.Cliente";
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
+			if (rs.next()) {
+				correlativo = rs.getString("correlativo");
+			}
+		} catch (Exception e) {
+			correlativo = "";
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return correlativo;
 	}
 
 }

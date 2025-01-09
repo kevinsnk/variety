@@ -30,7 +30,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 				Empleado empleado = new Empleado();
 				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
 				empleado.setNombreEmpleado(rs.getString("NombreEmpleado"));
-				empleado.setApellidoempleado(rs.getString("ApellidoEmpleado"));
+				empleado.setApellidoEmpleado(rs.getString("ApellidoEmpleado"));
 				empleado.setDireccionEmpleado(rs.getString("DireccionEmpleado"));
 				empleado.setTelefonoEmpleado(rs.getString("TelefonoEmpleado"));
 				empleado.setCelularEmpleado(rs.getString("CelularEmpleado"));
@@ -69,7 +69,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
 				empleado.setNombreEmpleado(rs.getString("NombreEmpleado"));
-				empleado.setApellidoempleado(rs.getString("ApellidoEmpleado"));
+				empleado.setApellidoEmpleado(rs.getString("ApellidoEmpleado"));
 				empleado.setDireccionEmpleado(rs.getString("DireccionEmpleado"));
 				empleado.setTelefonoEmpleado(rs.getString("TelefonoEmpleado"));
 				empleado.setCelularEmpleado(rs.getString("CelularEmpleado"));
@@ -97,18 +97,20 @@ public class EmpleadoJDBC extends AbstractJDBC{
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
-		String query = "INSERT INTO dbo.Empleado(IdEmpleado, NombreEmpleado, ApellidoEmpleado, direccionEmpleado, TelefonoEmpleado, CelularEmpleado, emailEmpleado, Activo, TipoEmpleado) VALUES (?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO dbo.Empleado(NombreEmpleado, ApellidoEmpleado, "
+				+ "direccionEmpleado, TelefonoEmpleado, CelularEmpleado, "
+				+ "emailEmpleado, Activo, TipoEmpleado) "
+				+ "VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, empleado.getIdEmpleado());
-			ps.setString(2, empleado.getNombreEmpleado());
-			ps.setString(3, empleado.getApellidoempleado());
-			ps.setString(4, empleado.getDireccionEmpleado());
-			ps.setString(5, empleado.getTelefonoEmpleado());
-			ps.setString(6, empleado.getCelularEmpleado());
-			ps.setString(7, empleado.getEmailEmpleado());
-			ps.setInt(8, empleado.getActivo());
-			ps.setString(9, empleado.getTipoEmpleado());
+			ps.setString(1, empleado.getNombreEmpleado());
+			ps.setString(2, empleado.getApellidoEmpleado());
+			ps.setString(3, empleado.getDireccionEmpleado());
+			ps.setString(4, empleado.getTelefonoEmpleado());
+			ps.setString(5, empleado.getCelularEmpleado());
+			ps.setString(6, empleado.getEmailEmpleado());
+			ps.setInt(7, empleado.getActivo());
+			ps.setString(8, empleado.getTipoEmpleado());
 			
 			
 
@@ -147,7 +149,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 			PreparedStatement ps = conn.prepareStatement(query);
 			
 			ps.setString(1, empleado.getNombreEmpleado());
-			ps.setString(2, empleado.getApellidoempleado());
+			ps.setString(2, empleado.getApellidoEmpleado());
 			ps.setString(3, empleado.getDireccionEmpleado());
 			ps.setString(4, empleado.getTelefonoEmpleado());
 			ps.setString(5, empleado.getCelularEmpleado());
@@ -199,5 +201,34 @@ public class EmpleadoJDBC extends AbstractJDBC{
 		}
 		
 		return codigoRespuesta;
+	}
+
+	@Override
+	public String getCorrelativo() throws SQLException {
+		String correlativo = "";
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT count(IdEmpleado) + 1 as correlativo "
+				+ "FROM dbo.Empleado";
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
+			if (rs.next()) {
+				correlativo = rs.getString("correlativo");
+			}
+		} catch (Exception e) {
+			correlativo = "";
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return correlativo;
 	}
 }

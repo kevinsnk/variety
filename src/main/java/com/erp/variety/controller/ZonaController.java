@@ -26,7 +26,7 @@ public class ZonaController {
 		try {
 			listaZonas = zonaJDBC.findAll();
 			zonaDaoResponse.setCodigo("0");
-			zonaDaoResponse.setDescripcion("EXITO");
+			zonaDaoResponse.setDescripcion("success");
 			zonaDaoResponse.setZonas(listaZonas);
 		} catch (SQLException e) {
 			zonaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -48,7 +48,7 @@ public class ZonaController {
 				listaZona.add(zona);
 			}
 			zonaDaoResponse.setCodigo("0");
-			zonaDaoResponse.setDescripcion("EXITO");
+			zonaDaoResponse.setDescripcion("success");
 			zonaDaoResponse.setZonas(listaZona);
 		} catch (SQLException e) {
 			zonaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));

@@ -25,7 +25,7 @@ public class DistribuidorController {
 		try {
 			listadistribuidor = distribuidorJDBC.findAll();
 			distribuidorDaoResponse.setCodigo("0");
-			distribuidorDaoResponse.setDescripcion("EXITO");
+			distribuidorDaoResponse.setDescripcion("success");
 			distribuidorDaoResponse.setDistribuidores(listadistribuidor);
 		} catch (SQLException e) {
 			distribuidorDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -47,7 +47,7 @@ public class DistribuidorController {
 				listadistribuidor.add(distribuidor);
 			}
 			distribuidorDaoResponse.setCodigo("0");
-			distribuidorDaoResponse.setDescripcion("EXITO");
+			distribuidorDaoResponse.setDescripcion("success");
 			distribuidorDaoResponse.setDistribuidores(listadistribuidor);
 		} catch (SQLException e) {
 			distribuidorDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
