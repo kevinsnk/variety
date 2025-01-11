@@ -70,7 +70,7 @@ public class ClientesController {
 			cliente.setIdCliente(idCliente);
 			codigoRespuesta = clientesJDBC.save(cliente);
 			if(codigoRespuesta.equals("0")) {
-				clientesDaoResponse.setDescripcion("success");
+				clientesDaoResponse.setDescripcion("Registro guardado exitosamente");
 			}else {
 				clientesDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
 			}
@@ -92,7 +92,7 @@ public class ClientesController {
 		try {
 			codigoRespuesta = clientesJDBC.edit(cliente);
 			if(codigoRespuesta.equals("0")) {
-				clientesDaoResponse.setDescripcion("success");
+				clientesDaoResponse.setDescripcion("Registro editado exitosamente");
 			}else {
 				clientesDaoResponse.setDescripcion("Error al querer guardar los cambios del cliente en la tabla");
 			}
@@ -114,7 +114,7 @@ public class ClientesController {
 			if(cliente != null && !cliente.trim().equals("")) {
 				codigoRespuesta = clientesJDBC.delete(cliente);
 				if(codigoRespuesta.equals("0")) {
-					clientesDaoResponse.setDescripcion("success");
+					clientesDaoResponse.setDescripcion("Registro eliminado exitosamente");
 				}else {
 					clientesDaoResponse.setDescripcion("Error al querer eliminar cliente en la tabla");
 				}

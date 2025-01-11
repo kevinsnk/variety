@@ -27,7 +27,7 @@ public class EmpleadoController {
 		try {
 			listaempleados = empleadoJDBC.findAll();
 			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("success");
+			empleadoDaoResponse.setDescripcion("Exito");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -49,7 +49,7 @@ public class EmpleadoController {
 				listaempleados.add(empleado);
 			}
 			empleadoDaoResponse.setCodigo("0");
-			empleadoDaoResponse.setDescripcion("success");
+			empleadoDaoResponse.setDescripcion("Exito");
 			empleadoDaoResponse.setEmpleados(listaempleados);
 		} catch (SQLException e) {
 			empleadoDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -66,7 +66,7 @@ public class EmpleadoController {
 		try {
 			codigoRespuesta = empleadoJDBC.save(empleado);
 			if(codigoRespuesta.equals("0")) {
-				empleadoDaoResponse.setDescripcion("success");
+				empleadoDaoResponse.setDescripcion("Registro guardado exitosamente");
 			}else {
 				empleadoDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
 			}
@@ -87,7 +87,7 @@ public class EmpleadoController {
 		try {
 			codigoRespuesta = empleadoJDBC.edit(empleado);
 			if(codigoRespuesta.equals("0")) {
-				empleadoDaoResponse.setDescripcion("success");
+				empleadoDaoResponse.setDescripcion("Registro editado exitosamente");
 			}else {
 				empleadoDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
 			}

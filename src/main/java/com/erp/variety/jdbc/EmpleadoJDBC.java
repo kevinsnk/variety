@@ -116,9 +116,10 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();
@@ -136,13 +137,13 @@ public class EmpleadoJDBC extends AbstractJDBC{
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "UPDATE dbo.Empleado\r\n"
-				+ "SET NombreEmpleado = ? \r\n"
-				+ "ApellidoEmpleado= ? \r\n"
-				+ "direccionEmpleado= ? \r\n"
-				+ "TelefonoEmpleado= ? \r\n"
-				+ "CelularEmpleado= ? \r\n"
-				+ "emailEmpleado= ? \r\n"
-				+ "Activo= ? \r\n"
+				+ "SET NombreEmpleado = ?, \r\n"
+				+ "ApellidoEmpleado= ? , \r\n"
+				+ "direccionEmpleado= ? , \r\n"
+				+ "TelefonoEmpleado= ? , \r\n"
+				+ "CelularEmpleado= ? , \r\n"
+				+ "emailEmpleado= ? , \r\n"
+				+ "Activo= ? , \r\n"
 				+ "TipoEmpleado= ? \r\n"
 				+ "WHERE IdEmpleado = ?";
 		try {
@@ -160,9 +161,10 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();
@@ -189,9 +191,10 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();

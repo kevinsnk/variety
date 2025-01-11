@@ -125,10 +125,10 @@ public class ClientesJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
-			codigoRetorno = "2";
+			codigoRetorno = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();
@@ -198,10 +198,10 @@ public class ClientesJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
-			codigoRetorno = "2";
+			codigoRetorno = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();
@@ -227,10 +227,10 @@ public class ClientesJDBC extends AbstractJDBC{
 
 			ps.executeUpdate();
 			conn.commit();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
-			codigoRetorno = "2";
+			codigoRetorno = String.valueOf(e.getErrorCode());
 		} finally {
 			try {
 				conn.close();

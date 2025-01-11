@@ -35,9 +35,7 @@ public class SqlConn {
 	private Properties getProperties() throws IOException {
 		Properties prop = new Properties();
 		System.out.println("entra al getProperties");
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		//System.out.println(rootPath + "config/application.properties");
 		prop.load(new FileInputStream(rootPath + "config/application.properties"));
 
 
