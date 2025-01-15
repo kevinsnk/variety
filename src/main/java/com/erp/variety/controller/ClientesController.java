@@ -85,7 +85,7 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/editClient")
-	public ClientesDaoResponse editClient(ClientesDaoRequest cliente) {
+	public ClientesDaoResponse editClient(@RequestBody ClientesDaoRequest cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
 		String codigoRespuesta = "0";
@@ -106,7 +106,7 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/deleteClient")
-	public ClientesDaoResponse deleteClient(String cliente) {
+	public ClientesDaoResponse deleteClient(@RequestBody String cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
 		String codigoRespuesta = "0";

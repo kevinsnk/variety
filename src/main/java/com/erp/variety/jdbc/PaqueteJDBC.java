@@ -116,8 +116,8 @@ public class PaqueteJDBC extends AbstractJDBC{
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String query = "UPDATE dbo.Paquete\r\n"
-				+ "SET Descripcion = ? \r\n"
-				+ "pCosto= ? \r\n"
+				+ "SET Descripcion = ?, \r\n"
+				+ "pCosto= ?, \r\n"
 				+ "pVenta= ? \r\n"
 				+ "WHERE IdPaquete = ?";
 		try {
@@ -175,7 +175,30 @@ public class PaqueteJDBC extends AbstractJDBC{
 
 	@Override
 	public String getCorrelativo() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String correlativo = "";
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT count(IdPaquete) + 1 as correlativo "
+				+ "FROM dbo.Paquete";
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
+			if (rs.next()) {
+				correlativo = rs.getString("correlativo");
+			}
+		} catch (Exception e) {
+			correlativo = "";
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return correlativo;
 	}
 }

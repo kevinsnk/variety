@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.EmpleadoDaoRequest;
 import com.erp.variety.dao.EmpleadoDaoResponse;
 import com.erp.variety.jdbc.EmpleadoJDBC;
 import com.erp.variety.model.Empleado;
@@ -59,7 +60,7 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/saveEmpleado")
-	public EmpleadoDaoResponse saveClient(@RequestBody Empleado empleado) {
+	public EmpleadoDaoResponse saveClient(@RequestBody EmpleadoDaoRequest empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
 		String codigoRespuesta = "0";
@@ -80,7 +81,7 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/editEmpleado")
-	public EmpleadoDaoResponse editEmpleado(@RequestBody Empleado empleado) {
+	public EmpleadoDaoResponse editEmpleado(@RequestBody EmpleadoDaoRequest empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
 		String codigoRespuesta = "0";
@@ -101,7 +102,28 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/deleteEmpleado")
-	public void deleteEmpleado(@RequestBody Empleado empleado) {
-		
+	public EmpleadoDaoResponse deleteEmpleado(@RequestBody int empleado) {
+		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
+		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
+		String codigoRespuesta = "0";
+		try {
+			if (empleado != 0) {
+				codigoRespuesta = empleadoJDBC.delete(empleado);
+				if (codigoRespuesta.equals("0")) {
+					empleadoDaoResponse.setDescripcion("Registro eliminado exitosamente");
+				} else {
+					empleadoDaoResponse.setDescripcion("Error al querer eliminar el pedido en la tabla");
+				}
+				empleadoDaoResponse.setCodigo(codigoRespuesta);
+			} else {
+				empleadoDaoResponse.setCodigo("1");
+				empleadoDaoResponse.setDescripcion("Debe de mandar un código de pedido valido.");
+			}
+		} catch (Exception e) {
+			empleadoDaoResponse.setCodigo(codigoRespuesta);
+			empleadoDaoResponse.setDescripcion(e.getMessage());
+			e.printStackTrace();
+		}
+		return empleadoDaoResponse;
 	}
 }
