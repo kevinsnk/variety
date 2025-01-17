@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.PedidosDaoRequest;
 import com.erp.variety.dao.PedidosDaoResponse;
 import com.erp.variety.jdbc.PedidosJDBC;
 import com.erp.variety.model.Pedidos;
@@ -59,8 +60,8 @@ public class PedidosController {
 		return pedidosDaoResponse;
 	}
 
-	@PostMapping("/savePaquete")
-	public PedidosDaoResponse savePaquete(@RequestBody Pedidos pedido) {
+	@PostMapping("/savePedido")
+	public PedidosDaoResponse savePedido(@RequestBody PedidosDaoRequest pedido) {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
 		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
 		String idPedido = "0";
@@ -83,8 +84,8 @@ public class PedidosController {
 		return pedidosDaoResponse;
 	}
 
-	@PostMapping("/editPaquete")
-	public PedidosDaoResponse editPaquete(@RequestBody Pedidos pedido) {
+	@PostMapping("/editPedido")
+	public PedidosDaoResponse editPedido(@RequestBody PedidosDaoRequest pedido) {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
 		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
 		String codigoRespuesta = "0";
@@ -104,8 +105,8 @@ public class PedidosController {
 		return pedidosDaoResponse;
 	}
 
-	@PostMapping("/deletePaquete")
-	public PedidosDaoResponse deletePaquete(@RequestBody String pedido) {
+	@PostMapping("/deletePedido")
+	public PedidosDaoResponse deletePedido(@RequestBody String pedido) {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
 		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
 		String codigoRespuesta = "0";

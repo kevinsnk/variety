@@ -24,7 +24,10 @@ public class PedidosJDBC extends AbstractJDBC{
 		Connection conn = sconn.getConnection();
 		Statement st = null;
 		ResultSet rs;
-		String query = "SELECT * FROM dbo.Pedido";
+		String query = "SELECT p.*, c.nombreCliente as nombreClient, e.NombreEmpleado, e.ApellidoEmpleado \r\n"
+				+ "FROM dbo.Pedido p\r\n"
+				+ "INNER JOIN dbo.Cliente c on c.IdCliente = p.IdCliente\r\n"
+				+ "INNER JOIN dbo.Empleado e on e.IdEmpleado = p.IdEmpleado";
 				
 		try {
 			st = conn.createStatement();
@@ -41,9 +44,11 @@ public class PedidosJDBC extends AbstractJDBC{
 				pedidos.setFecha(rs.getDate("fecha"));
 				pedidos.setFechaEntrega(rs.getDate("fechaEntrega"));
 				clientes.setIdCliente(rs.getString("IdCliente"));
-				clientes.setNombreCliente(rs.getString("nombreCliente"));
+				clientes.setNombreCliente(rs.getString("nombreClient"));
 				pedidos.setCliente(clientes);
 				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
+				empleado.setNombreEmpleado(rs.getString("NombreEmpleado"));
+				empleado.setApellidoEmpleado(rs.getString("ApellidoEmpleado"));
 				pedidos.setEmpleado(empleado);
 				pedidos.setSumas(rs.getBigDecimal("Sumas"));
 				pedidos.setImpuesto(rs.getBigDecimal("Impuesto"));
@@ -113,26 +118,29 @@ public class PedidosJDBC extends AbstractJDBC{
 
 	@Override
 	public String save(Object entity) throws SQLException {
-		Pedidos pedido = (Pedidos) entity;
+		PedidosDaoRequest pedido = (PedidosDaoRequest) entity;
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
-		String query = "INSERT INTO dbo.Pedido (IdPaquete, Descripcion, pCosto, pVenta) VALUES (?,?,?,?)";
+		String query = "INSERT INTO dbo.Pedido(\r\n"
+				+ "Cancelado, estado, tipo, Numero, fecha, fechaEntrega, \r\n"
+				+ "IdCliente, nombreCliente, IdEmpleado, Sumas, Impuesto, Total) \r\n"
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, pedido.getIdPedido());
-			ps.setString(2, pedido.getCancelado());
-			ps.setString(3, pedido.getEstado());
-			ps.setString(4, pedido.getTipo());
-			ps.setString(5, pedido.getNumero());
-			ps.setDate(6, (Date) pedido.getFecha());
-			ps.setDate(7, (Date) pedido.getFechaEntrega());
-			ps.setString(8, pedido.getCliente().getIdCliente());
-			ps.setString(9, pedido.getCliente().getNombreCliente());
-			ps.setInt(10, pedido.getEmpleado().getIdEmpleado());
-			ps.setBigDecimal(11, pedido.getSumas());
-			ps.setBigDecimal(12, pedido.getImpuesto());
-			ps.setBigDecimal(13, pedido.getTotal());
+			//ps.setInt(1, pedido.getIdPedido());
+			ps.setString(1, pedido.getCancelado());
+			ps.setString(2, pedido.getEstado());
+			ps.setString(3, pedido.getTipo());
+			ps.setString(4, pedido.getNumero());
+			ps.setDate(5, pedido.getFecha());
+			ps.setDate(6, pedido.getFechaEntrega());
+			ps.setString(7, pedido.getIdCliente());
+			ps.setString(8, pedido.getNombreCliente());
+			ps.setInt(9, pedido.getIdEmpleado());
+			ps.setBigDecimal(10, pedido.getSumas());
+			ps.setBigDecimal(11, pedido.getImpuesto());
+			ps.setBigDecimal(12, pedido.getTotal());
 
 			ps.executeUpdate();
 			conn.commit();

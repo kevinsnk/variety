@@ -1,7 +1,7 @@
 package com.erp.variety.dao;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.Data;
 import lombok.Getter;
