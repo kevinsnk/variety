@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.erp.variety.dao.EmpleadoDaoRequest;
 import com.erp.variety.model.Empleado;
 import com.erp.variety.util.SqlConn;
 
@@ -93,7 +94,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 	@Override
 	public String save(Object entity) throws SQLException {
-		Empleado empleado = (Empleado) entity;
+		EmpleadoDaoRequest empleado = (EmpleadoDaoRequest) entity;
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
@@ -132,7 +133,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 	@Override
 	public String edit(Object entity) throws SQLException {
-		Empleado empleado = (Empleado) entity;
+		EmpleadoDaoRequest empleado = (EmpleadoDaoRequest) entity;
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
@@ -178,7 +179,7 @@ public class EmpleadoJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		Empleado empleado = (Empleado) entity;
+		EmpleadoDaoRequest empleado = (EmpleadoDaoRequest) entity;
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();

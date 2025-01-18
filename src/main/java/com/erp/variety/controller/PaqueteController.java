@@ -105,12 +105,12 @@ public class PaqueteController {
 	}
 
 	@PostMapping("/deletePaquete")
-	public PaqueteDaoResponse deletePaquete(@RequestBody String paquete) {
+	public PaqueteDaoResponse deletePaquete(@RequestBody Paquete paquete) {
 		PaqueteJDBC paqueteJDBC = new PaqueteJDBC();
 		PaqueteDaoResponse paqueteDaoResponse = new PaqueteDaoResponse();
 		String codigoRespuesta = "0";
 		try {
-			if (paquete != null && !paquete.trim().equals("")) {
+			if (paquete != null && !paquete.getIdPaquete().trim().equals("")) {
 				codigoRespuesta = paqueteJDBC.delete(paquete);
 				if (codigoRespuesta.equals("0")) {
 					paqueteDaoResponse.setDescripcion("Registro eliminado exitosamente");

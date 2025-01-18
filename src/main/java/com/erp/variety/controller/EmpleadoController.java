@@ -102,12 +102,12 @@ public class EmpleadoController {
 	}
 	
 	@PostMapping("/deleteEmpleado")
-	public EmpleadoDaoResponse deleteEmpleado(@RequestBody int empleado) {
+	public EmpleadoDaoResponse deleteEmpleado(@RequestBody EmpleadoDaoRequest empleado) {
 		EmpleadoJDBC empleadoJDBC = new EmpleadoJDBC();
 		EmpleadoDaoResponse empleadoDaoResponse = new EmpleadoDaoResponse();
 		String codigoRespuesta = "0";
 		try {
-			if (empleado != 0) {
+			if (empleado != null) {
 				codigoRespuesta = empleadoJDBC.delete(empleado);
 				if (codigoRespuesta.equals("0")) {
 					empleadoDaoResponse.setDescripcion("Registro eliminado exitosamente");

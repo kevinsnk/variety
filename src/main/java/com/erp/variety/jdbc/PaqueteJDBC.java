@@ -180,7 +180,7 @@ public class PaqueteJDBC extends AbstractJDBC{
 		Connection conn = sconn.getConnection();
 		Statement st = null;
 		ResultSet rs;
-		String query = "SELECT count(IdPaquete) + 1 as correlativo "
+		String query = "SELECT max(IdPaquete) + 1 as correlativo "
 				+ "FROM dbo.Paquete";
 		try {
 			st = conn.createStatement();

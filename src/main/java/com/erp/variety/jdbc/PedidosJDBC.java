@@ -213,7 +213,7 @@ public class PedidosJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		Pedidos pedido = (Pedidos) entity;
+		PedidosDaoRequest pedido = (PedidosDaoRequest) entity;
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();

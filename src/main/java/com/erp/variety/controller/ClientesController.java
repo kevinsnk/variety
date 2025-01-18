@@ -106,12 +106,12 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/deleteClient")
-	public ClientesDaoResponse deleteClient(@RequestBody String cliente) {
+	public ClientesDaoResponse deleteClient(@RequestBody ClientesDaoRequest cliente) {
 		ClientesJDBC clientesJDBC = new ClientesJDBC();
 		ClientesDaoResponse clientesDaoResponse = new ClientesDaoResponse();
 		String codigoRespuesta = "0";
 		try {
-			if(cliente != null && !cliente.trim().equals("")) {
+			if(cliente != null && !cliente.getIdCliente().trim().equals("")) {
 				codigoRespuesta = clientesJDBC.delete(cliente);
 				if(codigoRespuesta.equals("0")) {
 					clientesDaoResponse.setDescripcion("Registro eliminado exitosamente");

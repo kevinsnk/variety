@@ -214,7 +214,7 @@ public class ClientesJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		String cliente = (String) entity;
+		ClientesDaoRequest cliente = (ClientesDaoRequest) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
@@ -222,7 +222,7 @@ public class ClientesJDBC extends AbstractJDBC{
 				+ "WHERE IdCliente = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, cliente.trim());
+			ps.setString(1, cliente.getIdCliente());
 
 
 			ps.executeUpdate();
