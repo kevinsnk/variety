@@ -8,13 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.erp.variety.dao.ClientesDaoRequest;
+
 import com.erp.variety.dao.ProductoDaoRequest;
-import com.erp.variety.model.Clientes;
 import com.erp.variety.model.Producto;
 import com.erp.variety.util.SqlConn;
 
-public class ProductoJDBC {
+public class ProductoJDBC extends AbstractJDBC{
 
 
 	@Override
@@ -207,7 +206,7 @@ public class ProductoJDBC {
 				+ "WHERE IdProducto = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, producto.getIdCliente());
+			ps.setString(1, producto.getIdProducto());
 
 
 			ps.executeUpdate();
