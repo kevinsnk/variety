@@ -1,9 +1,6 @@
-package com.erp.variety.dao;
+package com.erp.variety.model;
 
-import java.util.List;
-
-import com.erp.variety.model.Clientes;
-import com.erp.variety.model.Producto;
+import java.math.BigDecimal;
 
 import lombok.Data;
 import lombok.Getter;
@@ -12,20 +9,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-
-public class ProductoDaoResponse {
+public class Productos {
+	
 	public String idProducto;
 	public String descripcion;
-	public String descriPrint;
+	public String descripPrint;
 	public int grupo;
 	public int tipo;
 	public String uniCompra;
-	public int valCompra;
+	public BigDecimal valCompra;
 	public String uniVenta;
-	public int valVenta;
+	public BigDecimal valVenta;
 	public String uniInvent;
-	public int valInvent;
+	public BigDecimal valInvent;
 	public String serie;
 	public String lote;
-	public List<Producto> producto;
 }

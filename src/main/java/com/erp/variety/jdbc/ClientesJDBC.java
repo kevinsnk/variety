@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.erp.variety.dao.ClientesDaoRequest;
 import com.erp.variety.model.Clientes;
+import com.erp.variety.model.Empleado;
 import com.erp.variety.util.SqlConn;
 
 public class ClientesJDBC extends AbstractJDBC{
@@ -34,6 +35,30 @@ public class ClientesJDBC extends AbstractJDBC{
 				Clientes cliente = new Clientes();
 				cliente.setIdCliente(rs.getString("idCliente"));
 				cliente.setNombreCliente(rs.getString("nombreCliente"));
+				cliente.setNombreComercial(rs.getString("nombreComercial"));
+				cliente.setGrupoCliente(rs.getInt("grupoCliente"));
+				cliente.setDireccionCliente(rs.getString("DireccionCliente"));
+				cliente.setPaisCliente(rs.getString("PaisCliente"));
+				cliente.setDepartamentoCliente(rs.getString("DepartamentoCliente"));
+				cliente.setMunicipioCliente(rs.getString("MunicipioCliente"));
+				cliente.setTelefonoCliente(rs.getString("TelefonoCliente"));
+				cliente.setCelularCliente(rs.getString("CelularCliente"));
+				cliente.setEmailCliente(rs.getString("EmailCliente"));
+				cliente.setNrcCliente(rs.getString("NrcCliente"));
+				cliente.setNitCliente(rs.getString("NitCliente"));
+				cliente.setDuiCliente(rs.getString("DuiCliente"));
+				cliente.setGiroCliente(rs.getString("GiroCliente"));
+				cliente.setContactoCliente(rs.getString("ContactoCliente"));
+				cliente.setSitioWebCliente(rs.getString("SitiowebCliente"));
+				cliente.setWhatsappCliente(rs.getString("WhatsappCliente"));
+				cliente.setLatitud(rs.getString("Latitud"));
+				cliente.setLongitud(rs.getString("Longitud"));
+				cliente.setCtaContableCliente(rs.getString(""));
+				Empleado empleado = new Empleado();
+				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
+				cliente.setIdEmpleado(empleado);
+				cliente.setActivo(rs.getInt("Activo"));
+				
 				
 				listaClientes.add(cliente);
 			}
@@ -56,20 +81,44 @@ public class ClientesJDBC extends AbstractJDBC{
 		Clientes cliente = (Clientes) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
-		Statement st = null;
 		ResultSet rs;
 		String query = "SELECT IdCliente, nombreCliente, nombreComercial, grupoCliente,\r\n"
 				+ "DireccionCliente, PaisCliente, DepartamentoCliente, MunicipioCliente, \r\n"
 				+ "TelefonoCliente, CelularCliente, EmailCliente, NrcCliente, NitCliente, DuiCliente,\r\n"
 				+ "GiroCliente, ContactoCliente, SitiowebCliente, WhatsappCliente, Latitud, Longitud, \r\n"
 				+ "CtaContableCliente, IdEmpleado, Activo "
-				+ "FROM dbo.Cliente";
+				+ "FROM dbo.Cliente "
+				+ "WHERE IdCliente = ?";
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(query);
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, cliente.getIdCliente());
+			rs = ps.executeQuery(query);
 			if (rs.next()) {
 				cliente.setIdCliente(rs.getString("idCliente"));
 				cliente.setNombreCliente(rs.getString("nombreCliente"));
+				cliente.setNombreComercial(rs.getString("nombreComercial"));
+				cliente.setGrupoCliente(rs.getInt("grupoCliente"));
+				cliente.setDireccionCliente(rs.getString("DireccionCliente"));
+				cliente.setPaisCliente(rs.getString("PaisCliente"));
+				cliente.setDepartamentoCliente(rs.getString("DepartamentoCliente"));
+				cliente.setMunicipioCliente(rs.getString("MunicipioCliente"));
+				cliente.setTelefonoCliente(rs.getString("TelefonoCliente"));
+				cliente.setCelularCliente(rs.getString("CelularCliente"));
+				cliente.setEmailCliente(rs.getString("EmailCliente"));
+				cliente.setNrcCliente(rs.getString("NrcCliente"));
+				cliente.setNitCliente(rs.getString("NitCliente"));
+				cliente.setDuiCliente(rs.getString("DuiCliente"));
+				cliente.setGiroCliente(rs.getString("GiroCliente"));
+				cliente.setContactoCliente(rs.getString("ContactoCliente"));
+				cliente.setSitioWebCliente(rs.getString("SitiowebCliente"));
+				cliente.setWhatsappCliente(rs.getString("WhatsappCliente"));
+				cliente.setLatitud(rs.getString("Latitud"));
+				cliente.setLongitud(rs.getString("Longitud"));
+				cliente.setCtaContableCliente(rs.getString(""));
+				Empleado empleado = new Empleado();
+				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
+				cliente.setIdEmpleado(empleado);
+				cliente.setActivo(rs.getInt("Activo"));
 			}
 		} catch (Exception e) {
 			cliente = null;
@@ -77,7 +126,6 @@ public class ClientesJDBC extends AbstractJDBC{
 		} finally {
 			try {
 				conn.close();
-				st.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
