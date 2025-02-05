@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.DetaPaqueteDaoResponse;
 import com.erp.variety.dao.PaqueteDaoResponse;
+import com.erp.variety.jdbc.DetaPaqueteJDBC;
 import com.erp.variety.jdbc.PaqueteJDBC;
+import com.erp.variety.model.DetaPaquete;
 import com.erp.variety.model.Paquete;
 
 @RestController
@@ -19,15 +23,15 @@ import com.erp.variety.model.Paquete;
 public class PaqueteController {
 
 	@GetMapping("/getAll")
-	public PaqueteDaoResponse getAllZona() {
+	public PaqueteDaoResponse getAll() {
 		PaqueteJDBC paqueteJDBC = new PaqueteJDBC();
 		PaqueteDaoResponse paqueteDaoResponse = new PaqueteDaoResponse();
-		List<Paquete> listapaquetes = new ArrayList<>();
+		List<Paquete> listaPaquetes = new ArrayList<>();
 		try {
-			listapaquetes = paqueteJDBC.findAll();
+			listaPaquetes = paqueteJDBC.findAll();
 			paqueteDaoResponse.setCodigo("0");
 			paqueteDaoResponse.setDescripcion("success");
-			paqueteDaoResponse.setPaquete(listapaquetes);
+			paqueteDaoResponse.setPaquete(listaPaquetes);
 
 		} catch (SQLException e) {
 			paqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -58,10 +62,32 @@ public class PaqueteController {
 		}
 		return paquete;
 	}
+	
+	@GetMapping("/getDetallePaquete")
+	public DetaPaqueteDaoResponse getDetallePaquete(@RequestParam(value = "idPaquete", required = true) String idPaquete) {
+		DetaPaqueteJDBC detaPaqueteJDBC = new DetaPaqueteJDBC();
+		DetaPaqueteDaoResponse detaPaqueteDaoResponse = new DetaPaqueteDaoResponse();
+		List<DetaPaquete> listaDetallePaquete = new ArrayList<DetaPaquete>();
+		try {
+
+			listaDetallePaquete = null;
+			listaDetallePaquete = detaPaqueteJDBC.getDetallePaquete(idPaquete);
+			detaPaqueteDaoResponse.setCodigo("0");
+			detaPaqueteDaoResponse.setDescripcion("success");
+			detaPaqueteDaoResponse.setDetaPaquetes(listaDetallePaquete);
+
+		} catch (SQLException e) {
+			detaPaqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			detaPaqueteDaoResponse.setDescripcion(e.getMessage());
+		}
+
+		return detaPaqueteDaoResponse;
+	}
 
 	@PostMapping("/savePaquete")
 	public PaqueteDaoResponse savePaquete(@RequestBody Paquete paquete) {
 		PaqueteJDBC paqueteJDBC = new PaqueteJDBC();
+		DetaPaqueteJDBC detaPaqueteJDBC = new DetaPaqueteJDBC();
 		PaqueteDaoResponse paqueteDaoResponse = new PaqueteDaoResponse();
 		String idPaquete = "0";
 		String codigoRespuesta = "0";
@@ -70,7 +96,16 @@ public class PaqueteController {
 			paquete.setIdPaquete(idPaquete);
 			codigoRespuesta = paqueteJDBC.save(paquete);
 			if (codigoRespuesta.equals("0")) {
-				paqueteDaoResponse.setDescripcion("Registro guardado exitosamente");
+				for (DetaPaquete detaPaquete : paquete.getDetallePaquete()) {
+					detaPaquete.setIdPaquete(idPaquete);
+					codigoRespuesta = detaPaqueteJDBC.save(detaPaquete);
+					if (codigoRespuesta.equals("0")) {
+						paqueteDaoResponse.setDescripcion("Registro guardado exitosamente");
+					} else {
+						paqueteDaoResponse
+								.setDescripcion("Error al querer guardar los detalles del paquete en la tabla");
+					}
+				}
 			} else {
 				paqueteDaoResponse.setDescripcion("Error al querer guardar el nuevo paquete en la tabla");
 			}

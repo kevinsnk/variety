@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.erp.variety.dao.PedidosDaoRequest;
 import com.erp.variety.dao.PedidosDaoResponse;
 import com.erp.variety.jdbc.PedidosJDBC;
-import com.erp.variety.model.Pedidos;
+import com.erp.variety.model.Paquete;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -23,7 +23,7 @@ public class PedidosController {
 	public PedidosDaoResponse getAllPedidos() {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
 		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
-		List<Pedidos> listaPedidos = new ArrayList<>();
+		List<Paquete> listaPedidos = new ArrayList<>();
 		try {
 			listaPedidos = pedidosJDBC.findAll();
 			pedidosDaoResponse.setCodigo("0");
@@ -41,8 +41,8 @@ public class PedidosController {
 	@GetMapping("/getPedido")
 	public PedidosDaoResponse getPedido(@RequestBody Integer idPedido) throws SQLException {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
-		Pedidos pedido = new Pedidos();
-		List<Pedidos> listaPedidos = new ArrayList<>();
+		Paquete pedido = new Paquete();
+		List<Paquete> listaPedidos = new ArrayList<>();
 		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
 		try {
 			pedido = pedidosJDBC.getRecord(idPedido);

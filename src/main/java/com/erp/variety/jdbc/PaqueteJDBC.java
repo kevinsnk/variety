@@ -1,6 +1,7 @@
 package com.erp.variety.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.erp.variety.model.Bodega;
+import com.erp.variety.model.Clientes;
 import com.erp.variety.model.Paquete;
 import com.erp.variety.util.SqlConn;
 
@@ -20,7 +23,10 @@ public class PaqueteJDBC extends AbstractJDBC{
 		Connection conn = sconn.getConnection();
 		Statement st = null;
 		ResultSet rs;
-		String query = "SELECT * FROM dbo.Paquete";
+		String query = "SELECT p.IdPaquete, p.Descripcion, p.pCosto, p.pVenta, p.Saldo, p.fecha_asignacion, p.IdBodega,\r\n"
+				+ "p.entregado, p.pagoafecha, p.IdCliente\r\n"
+				+ "FROM dbo.Paquete p \r\n"
+				+ "WHERE entregado is NULL";
 				
 		try {
 			st = conn.createStatement();
@@ -29,8 +35,18 @@ public class PaqueteJDBC extends AbstractJDBC{
 				Paquete paquete = new Paquete();
 				paquete.setIdPaquete(rs.getString("IdPaquete"));
 				paquete.setDescripcion(rs.getString("Descripcion"));
-				paquete.setPCosto(rs.getDouble("pCosto"));
-				paquete.setPVenta(rs.getDouble("pVenta"));
+				paquete.setPCosto(rs.getBigDecimal("pCosto"));
+				paquete.setPVenta(rs.getBigDecimal("pVenta"));
+				paquete.setSaldo(rs.getBigDecimal("Saldo"));
+				paquete.setFechaAsignacion(rs.getDate("fecha_asignacion"));
+				Bodega bodega = new Bodega();
+				bodega.setIdBodega(rs.getString("IdBodega"));
+				paquete.setIdBodega(bodega);
+				paquete.setEntregado(rs.getString("entregado"));
+				Clientes cliente = new Clientes();
+				cliente.setIdCliente(rs.getString("IdCliente"));
+				paquete.setCliente(cliente);
+				paquete.setPagoaFecha(rs.getDate("pagoafecha"));
 				listapaquete.add(paquete);
 			}
 		} catch (Exception e) {
@@ -61,8 +77,8 @@ public class PaqueteJDBC extends AbstractJDBC{
 			if (rs.next()) {
 				paquete.setIdPaquete(rs.getString("IdPaquete"));
 				paquete.setDescripcion(rs.getString("Descripcion"));
-				paquete.setPCosto(rs.getDouble("pCosto"));
-				paquete.setPVenta(rs.getDouble("pVenta"));
+				paquete.setPCosto(rs.getBigDecimal("pCosto"));
+				paquete.setPVenta(rs.getBigDecimal("pVenta"));
 			}
 		} catch (Exception e) {
 			paquete = null;
@@ -89,8 +105,8 @@ public class PaqueteJDBC extends AbstractJDBC{
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, paquete.getIdPaquete());
 			ps.setString(2, paquete.getDescripcion());
-			ps.setDouble(3, paquete.getPCosto());
-			ps.setDouble(4, paquete.getPVenta());
+			ps.setBigDecimal(3, paquete.getPCosto());
+			ps.setBigDecimal(4, paquete.getPVenta());
 			
 
 			ps.executeUpdate();
@@ -98,6 +114,7 @@ public class PaqueteJDBC extends AbstractJDBC{
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = "1";
 		} finally {
 			try {
 				conn.close();
@@ -118,14 +135,27 @@ public class PaqueteJDBC extends AbstractJDBC{
 		String query = "UPDATE dbo.Paquete\r\n"
 				+ "SET Descripcion = ?, \r\n"
 				+ "pCosto= ?, \r\n"
-				+ "pVenta= ? \r\n"
+				+ "pVenta= ?, \r\n"
+				+ "Saldo= ?, \r\n"
+				+ "fecha_asignacion= ?, \r\n"
+				+ "IdBodega= ?, \r\n"
+				+ "entregado= ?, \r\n"
+				+ "pagoafecha= ?, \r\n"
+				+ "IdCliente= ? \r\n"
 				+ "WHERE IdPaquete = ?";
+
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, paquete.getDescripcion());
-			ps.setDouble(2, paquete.getPCosto());
-			ps.setDouble(3, paquete.getPVenta());
-			ps.setString(4, paquete.getIdPaquete());
+			ps.setBigDecimal(2, paquete.getPCosto());
+			ps.setBigDecimal(3, paquete.getPVenta());
+			ps.setBigDecimal(4, paquete.getSaldo());
+			ps.setDate(5, new Date(paquete.getFechaAsignacion().getTime()));
+			ps.setString(6, paquete.getIdBodega().getIdBodega());
+			ps.setString(7, paquete.getEntregado());
+			ps.setDate(8, new Date(paquete.getPagoaFecha().getTime()));
+			ps.setString(9, paquete.getCliente().getIdCliente());
+			ps.setString(10, paquete.getIdPaquete());
 			
 
 			ps.executeUpdate();
@@ -133,6 +163,7 @@ public class PaqueteJDBC extends AbstractJDBC{
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = "1";
 		} finally {
 			try {
 				conn.close();
@@ -146,29 +177,8 @@ public class PaqueteJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		Paquete paquete = (Paquete) entity;
 		String codigoRespuesta = "0";
-		SqlConn sconn = new SqlConn();
-		Connection conn = sconn.getConnection();
-		String query = "DELETE FROM dbo.Paquete\r\n"
-				+ "WHERE IdPaquete = ?";
-		try {
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, paquete.getIdPaquete());
-
-
-			ps.executeUpdate();
-			conn.commit();
-		} catch (Exception e) {
-			conn.rollback();
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		
 		
 		return codigoRespuesta;
 	}
@@ -176,29 +186,8 @@ public class PaqueteJDBC extends AbstractJDBC{
 	@Override
 	public String getCorrelativo() throws SQLException {
 		String correlativo = "";
-		SqlConn sconn = new SqlConn();
-		Connection conn = sconn.getConnection();
-		Statement st = null;
-		ResultSet rs;
-		String query = "SELECT max(IdPaquete) + 1 as correlativo "
-				+ "FROM dbo.Paquete";
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(query);
-			if (rs.next()) {
-				correlativo = rs.getString("correlativo");
-			}
-		} catch (Exception e) {
-			correlativo = "";
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				st.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		
 		return correlativo;
 	}
+	
 }

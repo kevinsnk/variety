@@ -68,7 +68,7 @@ public class ProductosJDBC extends AbstractJDBC{
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, producto.getIdProducto());
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				producto.setIdProducto(rs.getString("idProducto"));
 				producto.setDescripcion(rs.getString("Descripcion"));
@@ -132,23 +132,24 @@ public class ProductosJDBC extends AbstractJDBC{
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
-		String query = "INSERT INTO Producto(Descripcion, DescriPrint, Grupo, Tipo, UniCompra, \n"
-				+ "ValCompra, UniVenta, ValInvent, UniInvent, ValInvent, Serie, Lote)\n"
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO Producto(IdProducto, Descripcion, DescriPrint, Grupo, Tipo, UniCompra, \n"
+				+ "ValCompra, UniVenta, ValVenta, UniInvent, ValInvent, Serie, Lote)\n"
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, producto.getDescripcion());
-			ps.setString(2, producto.getDescripPrint());
-			ps.setInt(3, producto.getGrupo());
-			ps.setInt(4, producto.getTipo());
-			ps.setString(5, producto.getUniCompra());
-			ps.setBigDecimal(6, producto.getValCompra());
-			ps.setString(7, producto.getUniVenta());
-			ps.setBigDecimal(8, producto.getValVenta());
-			ps.setString(9, producto.getUniInvent());
-			ps.setBigDecimal(10, producto.getValInvent());
-			ps.setString(11, producto.getSerie());
-			ps.setString(12, producto.getLote());
+			ps.setString(1, producto.getIdProducto());
+			ps.setString(2, producto.getDescripcion());
+			ps.setString(3, producto.getDescripPrint());
+			ps.setInt(4, producto.getGrupo());
+			ps.setInt(5, producto.getTipo());
+			ps.setString(6, producto.getUniCompra());
+			ps.setBigDecimal(7, producto.getValCompra());
+			ps.setString(8, producto.getUniVenta());
+			ps.setBigDecimal(9, producto.getValVenta());
+			ps.setString(10, producto.getUniInvent());
+			ps.setBigDecimal(11, producto.getValInvent());
+			ps.setString(12, producto.getSerie());
+			ps.setString(13, producto.getLote());
 
 			ps.executeUpdate();
 			conn.commit();
@@ -224,6 +225,7 @@ public class ProductosJDBC extends AbstractJDBC{
 				+ "UniCompra= ?, \r\n"
 				+ "ValCompra= ?, \r\n"
 				+ "UniVenta= ?, \r\n"
+				+ "ValVenta= ?, \r\n"
 				+ "UniInvent= ?, \r\n"
 				+ "ValInvent= ?, \r\n"
 				+ "Serie= ?, \r\n"

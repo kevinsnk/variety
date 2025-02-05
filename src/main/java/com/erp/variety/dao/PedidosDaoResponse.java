@@ -2,7 +2,7 @@ package com.erp.variety.dao;
 
 import java.util.List;
 
-import com.erp.variety.model.Pedidos;
+import com.erp.variety.model.Paquete;
 
 import lombok.Data;
 import lombok.Getter;
@@ -15,6 +15,6 @@ public class PedidosDaoResponse {
 
 	public String codigo;
 	public String descripcion;
-	public List<Pedidos> pedidos;
+	public List<Paquete> pedidos;
 	
 }

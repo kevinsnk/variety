@@ -53,7 +53,7 @@ public class ClientesJDBC extends AbstractJDBC{
 				cliente.setWhatsappCliente(rs.getString("WhatsappCliente"));
 				cliente.setLatitud(rs.getString("Latitud"));
 				cliente.setLongitud(rs.getString("Longitud"));
-				cliente.setCtaContableCliente(rs.getString(""));
+				cliente.setCtaContableCliente(rs.getString("CtaContableCliente"));
 				Empleado empleado = new Empleado();
 				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
 				cliente.setIdEmpleado(empleado);
@@ -92,7 +92,7 @@ public class ClientesJDBC extends AbstractJDBC{
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, cliente.getIdCliente());
-			rs = ps.executeQuery(query);
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				cliente.setIdCliente(rs.getString("idCliente"));
 				cliente.setNombreCliente(rs.getString("nombreCliente"));
@@ -114,7 +114,7 @@ public class ClientesJDBC extends AbstractJDBC{
 				cliente.setWhatsappCliente(rs.getString("WhatsappCliente"));
 				cliente.setLatitud(rs.getString("Latitud"));
 				cliente.setLongitud(rs.getString("Longitud"));
-				cliente.setCtaContableCliente(rs.getString(""));
+				cliente.setCtaContableCliente(rs.getString("CtaContableCliente"));
 				Empleado empleado = new Empleado();
 				empleado.setIdEmpleado(rs.getInt("IdEmpleado"));
 				cliente.setIdEmpleado(empleado);
