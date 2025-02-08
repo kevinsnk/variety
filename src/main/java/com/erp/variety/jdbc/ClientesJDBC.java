@@ -195,28 +195,28 @@ public class ClientesJDBC extends AbstractJDBC{
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
 		String query = "UPDATE dbo.Cliente\r\n"
-				+ "SET nombreCliente= ? \r\n"
-				+ "nombreComercial= ? \r\n"
-				+ "grupoCliente= ?\r\n"
-				+ "DireccionCliente= ? \r\n"
-				+ "PaisCliente= ? \r\n"
-				+ "DepartamentoCliente= ? \r\n"
-				+ "MunicipioCliente= ? \r\n"
-				+ "TelefonoCliente= ? \r\n"
-				+ "CelularCliente= ? \r\n"
-				+ "EmailCliente= ? \r\n"
-				+ "NrcCliente= ? \r\n"
-				+ "NitCliente= ? \r\n"
-				+ "DuiCliente= ?\r\n"
-				+ "GiroCliente= ? \r\n"
-				+ "ContactoCliente= ? \r\n"
-				+ "SitiowebCliente= ? \r\n"
-				+ "WhatsappCliente= ? \r\n"
-				+ "Latitud= ? \r\n"
-				+ "Longitud= ? \r\n"
-				+ "CtaContableCliente= ? \r\n"
-				+ "IdEmpleado= ? \r\n"
-				+ "Activo = ?\r\n"
+				+ "SET nombreCliente= ?, \r\n"
+				+ "nombreComercial= ?, \r\n"
+				+ "grupoCliente= ?, \r\n"
+				+ "DireccionCliente= ?, \r\n"
+				+ "PaisCliente= ?, \r\n"
+				+ "DepartamentoCliente= ?, \r\n"
+				+ "MunicipioCliente= ?, \r\n"
+				+ "TelefonoCliente= ?, \r\n"
+				+ "CelularCliente= ?, \r\n"
+				+ "EmailCliente= ?, \r\n"
+				+ "NrcCliente= ?, \r\n"
+				+ "NitCliente= ?, \r\n"
+				+ "DuiCliente= ?, \r\n"
+				+ "GiroCliente= ?, \r\n"
+				+ "ContactoCliente= ?, \r\n"
+				+ "SitiowebCliente= ?, \r\n"
+				+ "WhatsappCliente= ?, \r\n"
+				+ "Latitud= ?, \r\n"
+				+ "Longitud= ?, \r\n"
+				+ "CtaContableCliente= ?, \r\n"
+				+ "IdEmpleado= ?, \r\n"
+				+ "Activo = ? \r\n"
 				+ "WHERE IdCliente = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -262,7 +262,7 @@ public class ClientesJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		ClientesDaoRequest cliente = (ClientesDaoRequest) entity;
+		String cliente = (String) entity;
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		String codigoRetorno = "0";
@@ -270,7 +270,7 @@ public class ClientesJDBC extends AbstractJDBC{
 				+ "WHERE IdCliente = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, cliente.getIdCliente());
+			ps.setString(1, cliente);
 
 
 			ps.executeUpdate();
@@ -296,7 +296,7 @@ public class ClientesJDBC extends AbstractJDBC{
 		Connection conn = sconn.getConnection();
 		Statement st = null;
 		ResultSet rs;
-		String query = "SELECT count(idcliente) + 1 as correlativo "
+		String query = "SELECT MAX(CAST(idcliente AS INT)) + 1 as correlativo "
 				+ "FROM dbo.Cliente";
 		try {
 			st = conn.createStatement();

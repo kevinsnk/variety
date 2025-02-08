@@ -25,8 +25,9 @@ public class PedidosJDBC extends AbstractJDBC{
 		Statement st = null;
 		ResultSet rs;
 		String query = "SELECT p.IdPaquete, p.Descripcion, p.pCosto, p.pVenta, p.Saldo, p.fecha_asignacion, p.IdBodega,\r\n"
-				+ "p.entregado, p.pagoafecha, p.IdCliente\r\n"
-				+ "FROM dbo.Paquete p \r\n"
+				+ "p.entregado, p.pagoafecha, p.IdCliente, c.nombreCliente\r\n"
+				+ "FROM dbo.Paquete p\r\n"
+				+ "LEFT JOIN dbo.Cliente c on c.IdCliente = p.IdCliente\r\n"
 				+ "WHERE entregado is not NULL";
 				
 		try {
@@ -46,6 +47,7 @@ public class PedidosJDBC extends AbstractJDBC{
 				paquete.setEntregado(rs.getString("entregado"));
 				Clientes cliente = new Clientes();
 				cliente.setIdCliente(rs.getString("IdCliente"));
+				cliente.setNombreCliente(rs.getString("nombreCliente"));
 				paquete.setCliente(cliente);
 				paquete.setPagoaFecha(rs.getDate("pagoafecha"));
 				listapaquete.add(paquete);
@@ -84,42 +86,27 @@ public class PedidosJDBC extends AbstractJDBC{
 		String codigoRespuesta = "0";
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
-		String query = "UPDATE dbo.Pedido\r\n"
-				+ "SET Cancelado = ?,\r\n"
-				+ "estado = ?,\r\n"
-				+ "tipo = ?,\r\n"
-				+ "Numero = ?,\r\n"
-				+ "fecha = ?,\r\n"
-				+ "fechaEntrega = ?,\r\n"
-				+ "IdCliente = ?,\r\n"
-				+ "nombreCliente = ?,\r\n"
-				+ "IdEmpleado = ?,\r\n"
-				+ "Sumas = ?,\r\n"
-				+ "Impuesto = ?,\r\n"
-				+ "Total = ?\r\n"
-				+ "WHERE IdPedido = ?";
+		String query = "UPDATE dbo.Paquete\r\n"
+				+ "SET Saldo = ?, \r\n"
+				+ "fecha_asignacion= ?, \r\n"
+				+ "entregado= ?, \r\n"
+				+ "IdCliente= ? \r\n"
+				+ "WHERE IdPaquete = ?";
+
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, pedido.getCancelado());
-			ps.setString(2, pedido.getEstado());
-			ps.setString(3, pedido.getTipo());
-			ps.setString(4, pedido.getNumero());
-			ps.setDate(5, (Date) pedido.getFecha());
-			ps.setDate(6, (Date) pedido.getFechaEntrega());
-			ps.setString(7, pedido.getIdCliente());
-			ps.setString(8, pedido.getNombreCliente());
-			ps.setInt(9, pedido.getIdEmpleado());
-			ps.setBigDecimal(10, pedido.getSumas());
-			ps.setBigDecimal(11, pedido.getImpuesto());
-			ps.setBigDecimal(12, pedido.getTotal());
-			ps.setInt(13, pedido.getIdPedido());
+			ps.setBigDecimal(1, pedido.getSaldo());
+			ps.setDate(2, new Date(pedido.getFechaAsignacion().getTime()));
+			ps.setInt(3, pedido.getEntregado());
+			ps.setString(4, pedido.getIdCliente());
+			ps.setString(5, pedido.getIdPaquete());
 			
-
 			ps.executeUpdate();
 			conn.commit();
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+			codigoRespuesta = "1";
 		} finally {
 			try {
 				conn.close();
@@ -133,28 +120,7 @@ public class PedidosJDBC extends AbstractJDBC{
 
 	@Override
 	public String delete(Object entity) throws SQLException {
-		PedidosDaoRequest pedido = (PedidosDaoRequest) entity;
 		String codigoRespuesta = "0";
-		SqlConn sconn = new SqlConn();
-		Connection conn = sconn.getConnection();
-		String query = "DELETE FROM dbo.Pedido\r\n"
-				+ "WHERE IdPedido = ?";
-		try {
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, pedido.getIdPedido());
-
-			ps.executeUpdate();
-			conn.commit();
-		} catch (Exception e) {
-			conn.rollback();
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
 		
 		return codigoRespuesta;
 	}

@@ -12,18 +12,15 @@ import lombok.Setter;
 @Data
 public class PedidosDaoRequest {
 
-	public int idPedido;
-	public String cancelado;
-	public String estado;
-	public String tipo;
-	public String numero;
-	public Date fecha;
-	public Date fechaEntrega;
-	public String idCliente;
-	public String nombreCliente;
-	public int idEmpleado;
-	public BigDecimal sumas;
-	public BigDecimal impuesto;
-	public BigDecimal total;
+	private String idPaquete;
+	//private String descripcion;
+	//private BigDecimal pCosto;
+	//private BigDecimal pVenta;
+	private BigDecimal saldo;
+	private Date fechaAsignacion;
+	//private Bodega idBodega;
+	private int entregado;
+	//private Date pagoaFecha;
+	private String idCliente;
 
 }

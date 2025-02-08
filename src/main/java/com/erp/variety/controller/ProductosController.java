@@ -63,11 +63,11 @@ public class ProductosController {
 	public ProductosDaoResponse saveProducto(@RequestBody Productos producto) {
 		ProductosJDBC productosJDBC = new ProductosJDBC();
 		ProductosDaoResponse productosDaoResponse = new ProductosDaoResponse();
-		String idProducto = "0";
+//		String idProducto = "0";
 		String codigoRespuesta = "0";
 		try {
-			idProducto = productosJDBC.getCorrelativo();
-			producto.setIdProducto(idProducto);
+//			idProducto = productosJDBC.getCorrelativo();
+//			producto.setIdProducto(idProducto);
 			codigoRespuesta = productosJDBC.save(producto);
 			if (codigoRespuesta.equals("0")) {
 				productosDaoResponse.setDescripcion("Registro guardado exitosamente");
