@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-
 public class Distribuidor {
 	public String IdDistribuidor;
 	public String Nombre;
