@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.CuentasxCobrarDaoResponse;
 import com.erp.variety.dao.PedidosDaoRequest;
 import com.erp.variety.dao.PedidosDaoResponse;
 import com.erp.variety.jdbc.PedidosJDBC;
@@ -20,41 +21,41 @@ import com.erp.variety.model.Paquete;
 public class CuentasxCobrarController {
 
 	@GetMapping("/getAll")
-	public PedidosDaoResponse getAllCxC() {
+	public CuentasxCobrarDaoResponse getAllCxC() {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
-		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
+		CuentasxCobrarDaoResponse cuentasxCobrarDaoResponse = new CuentasxCobrarDaoResponse();
 		List<Paquete> listaPedidos = new ArrayList<>();
 		try {
 			listaPedidos = pedidosJDBC.findAll();
-			pedidosDaoResponse.setCodigo("0");
-			pedidosDaoResponse.setDescripcion("success");
-			pedidosDaoResponse.setPedidos(listaPedidos);
+			cuentasxCobrarDaoResponse.setCodigo("0");
+			cuentasxCobrarDaoResponse.setDescripcion("success");
+			cuentasxCobrarDaoResponse.setMovimientos(listaPedidos);
 
 		} catch (SQLException e) {
-			pedidosDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
-			pedidosDaoResponse.setDescripcion(e.getMessage());
+			cuentasxCobrarDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			cuentasxCobrarDaoResponse.setDescripcion(e.getMessage());
 		}
 
-		return pedidosDaoResponse;
+		return cuentasxCobrarDaoResponse;
 	}
 	
 	@GetMapping("/getMovimientosByClient")
-	public PedidosDaoResponse getMovimientosByClient(@RequestBody String idCliente) {
+	public CuentasxCobrarDaoResponse getMovimientosByClient(@RequestBody String idCliente) {
 		PedidosJDBC pedidosJDBC = new PedidosJDBC();
-		PedidosDaoResponse pedidosDaoResponse = new PedidosDaoResponse();
+		CuentasxCobrarDaoResponse cuentasxCobrarDaoResponse = new CuentasxCobrarDaoResponse();
 		List<Paquete> listaPedidos = new ArrayList<>();
 		try {
 			listaPedidos = pedidosJDBC.findAll();
-			pedidosDaoResponse.setCodigo("0");
-			pedidosDaoResponse.setDescripcion("success");
-			pedidosDaoResponse.setPedidos(listaPedidos);
+			cuentasxCobrarDaoResponse.setCodigo("0");
+			cuentasxCobrarDaoResponse.setDescripcion("success");
+			cuentasxCobrarDaoResponse.setMovimientos(listaPedidos);
 
 		} catch (SQLException e) {
-			pedidosDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
-			pedidosDaoResponse.setDescripcion(e.getMessage());
+			cuentasxCobrarDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			cuentasxCobrarDaoResponse.setDescripcion(e.getMessage());
 		}
 
-		return pedidosDaoResponse;
+		return cuentasxCobrarDaoResponse;
 	}
 
 	@PostMapping("/saveCXC")

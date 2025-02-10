@@ -30,12 +30,12 @@ public class CuentasxCobrarJDBC extends AbstractJDBC {
 			rs = st.executeQuery(query);
 			while (rs.next()) {
 				Cobros cobro = new Cobros();
-				cobro.setIdCobro(rs.getInt(""));
-				cobro.setFechaCobro(rs.getDate(""));
-				cobro.setEstado(rs.getInt(""));
-				cobro.setMontoPagado(rs.getBigDecimal(""));
+				cobro.setIdCobro(rs.getInt("IdCobro"));
+				cobro.setFechaCobro(rs.getDate("FechaCobro"));
+				cobro.setEstado(rs.getInt("Estado"));
+				cobro.setMontoPagado(rs.getBigDecimal("MontoPagado"));
 				Clientes cliente = new Clientes();
-				cliente.setIdCliente(rs.getString(""));
+				cliente.setIdCliente(rs.getString("idCliente"));
 				cobro.setCliente(cliente);
 				listaCobros.add(cobro);
 			}
@@ -60,17 +60,20 @@ public class CuentasxCobrarJDBC extends AbstractJDBC {
 		Connection conn = sconn.getConnection();
 		Statement st = null;
 		ResultSet rs;
-		String query = "SELECT * FROM dbo.cobro";
+		String query = "SELECT IdCobro, FechaCobro, MontoPagado, Estado, idCliente "
+				+ "FROM dbo.cobro "
+				+ "WHERE IdCobro = ?";
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(query);
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, cobro.getIdCobro());
+			rs = ps.executeQuery();
 			if (rs.next()) {
-				cobro.setIdCobro(rs.getInt(""));
-				cobro.setFechaCobro(rs.getDate(""));
-				cobro.setEstado(rs.getInt(""));
-				cobro.setMontoPagado(rs.getBigDecimal(""));
+				cobro.setIdCobro(rs.getInt("IdCobro"));
+				cobro.setFechaCobro(rs.getDate("FechaCobro"));
+				cobro.setEstado(rs.getInt("Estado"));
+				cobro.setMontoPagado(rs.getBigDecimal("MontoPagado"));
 				Clientes cliente = new Clientes();
-				cliente.setIdCliente(rs.getString(""));
+				cliente.setIdCliente(rs.getString("idCliente"));
 			}
 		} catch (Exception e) {
 			cobro = null;
