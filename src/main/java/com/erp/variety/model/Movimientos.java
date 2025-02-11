@@ -1,6 +1,7 @@
 package com.erp.variety.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.Getter;
@@ -15,5 +16,6 @@ public class Movimientos {
 	private BigDecimal debito;
 	private BigDecimal credito;
 	private BigDecimal saldo;
-	private String idCliente;
+	private Clientes cliente;
+	private Date fechaMovimiento;
 }

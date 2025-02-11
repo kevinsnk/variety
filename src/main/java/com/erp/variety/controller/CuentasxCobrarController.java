@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.erp.variety.dao.CuentasxCobrarDaoResponse;
 import com.erp.variety.dao.PedidosDaoRequest;
 import com.erp.variety.dao.PedidosDaoResponse;
+import com.erp.variety.jdbc.CuentasxCobrarJDBC;
 import com.erp.variety.jdbc.PedidosJDBC;
+import com.erp.variety.model.Cobros;
+import com.erp.variety.model.Movimientos;
 import com.erp.variety.model.Paquete;
+import com.erp.variety.model.Pedidos;
 
 @RestController
 @RequestMapping("/cxc")
@@ -22,14 +26,14 @@ public class CuentasxCobrarController {
 
 	@GetMapping("/getAll")
 	public CuentasxCobrarDaoResponse getAllCxC() {
-		PedidosJDBC pedidosJDBC = new PedidosJDBC();
+		CuentasxCobrarJDBC cuentasxCobrarJDBC = new CuentasxCobrarJDBC();
 		CuentasxCobrarDaoResponse cuentasxCobrarDaoResponse = new CuentasxCobrarDaoResponse();
-		List<Paquete> listaPedidos = new ArrayList<>();
+		List<Paquete> listaCobros = new ArrayList<>();
 		try {
-			listaPedidos = pedidosJDBC.findAll();
+			listaCobros = cuentasxCobrarJDBC.findAll();
 			cuentasxCobrarDaoResponse.setCodigo("0");
 			cuentasxCobrarDaoResponse.setDescripcion("success");
-			cuentasxCobrarDaoResponse.setMovimientos(listaPedidos);
+			//cuentasxCobrarDaoResponse.setMovimientos(listaCobros);
 
 		} catch (SQLException e) {
 			cuentasxCobrarDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
@@ -41,14 +45,14 @@ public class CuentasxCobrarController {
 	
 	@GetMapping("/getMovimientosByClient")
 	public CuentasxCobrarDaoResponse getMovimientosByClient(@RequestBody String idCliente) {
-		PedidosJDBC pedidosJDBC = new PedidosJDBC();
+		CuentasxCobrarJDBC cuentasxCobrarJDBC = new CuentasxCobrarJDBC();
 		CuentasxCobrarDaoResponse cuentasxCobrarDaoResponse = new CuentasxCobrarDaoResponse();
-		List<Paquete> listaPedidos = new ArrayList<>();
+		List<Movimientos> listaMovimientos = new ArrayList<>();
 		try {
-			listaPedidos = pedidosJDBC.findAll();
+			listaMovimientos = cuentasxCobrarJDBC.getMovimientosByClient(idCliente);
 			cuentasxCobrarDaoResponse.setCodigo("0");
 			cuentasxCobrarDaoResponse.setDescripcion("success");
-			cuentasxCobrarDaoResponse.setMovimientos(listaPedidos);
+			cuentasxCobrarDaoResponse.setMovimientos(listaMovimientos);
 
 		} catch (SQLException e) {
 			cuentasxCobrarDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
