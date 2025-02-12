@@ -93,6 +93,52 @@ public class PaqueteJDBC extends AbstractJDBC{
 		}
 		return paquete;
 	}
+	
+	public List<Paquete> getPaquetesXAsignar() throws SQLException {
+		List<Paquete> listapaquete = new ArrayList<>();
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT p.IdPaquete, p.Descripcion, p.pCosto, p.pVenta, p.Saldo, p.fecha_asignacion, p.IdBodega,\r\n"
+				+ "p.entregado, p.pagoafecha, p.IdCliente\r\n"
+				+ "FROM dbo.Paquete p \r\n"
+				+ "WHERE IdBodega is NULL";
+				
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
+			while (rs.next()) {
+				Paquete paquete = new Paquete();
+				paquete.setIdPaquete(rs.getString("IdPaquete"));
+				paquete.setDescripcion(rs.getString("Descripcion"));
+				paquete.setPCosto(rs.getBigDecimal("pCosto"));
+				paquete.setPVenta(rs.getBigDecimal("pVenta"));
+				paquete.setSaldo(rs.getBigDecimal("Saldo"));
+				paquete.setFechaAsignacion(rs.getDate("fecha_asignacion"));
+				Bodega bodega = new Bodega();
+				bodega.setIdBodega(rs.getString("IdBodega"));
+				paquete.setIdBodega(bodega);
+				paquete.setEntregado(rs.getString("entregado"));
+				Clientes cliente = new Clientes();
+				cliente.setIdCliente(rs.getString("IdCliente"));
+				paquete.setCliente(cliente);
+				paquete.setPagoaFecha(rs.getDate("pagoafecha"));
+				listapaquete.add(paquete);
+			}
+		} catch (Exception e) {
+			listapaquete = null;
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return listapaquete;
+	}
 
 	@Override
 	public String save(Object entity) throws SQLException {
@@ -186,7 +232,29 @@ public class PaqueteJDBC extends AbstractJDBC{
 	@Override
 	public String getCorrelativo() throws SQLException {
 		String correlativo = "";
-		
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT MAX(CAST(IdPaquete AS INT)) + 1 as correlativo "
+				+ "FROM dbo.Paquete";
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
+			if (rs.next()) {
+				correlativo = rs.getString("correlativo");
+			}
+		} catch (Exception e) {
+			correlativo = "";
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return correlativo;
 	}
 	

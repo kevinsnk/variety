@@ -63,6 +63,25 @@ public class PaqueteController {
 		return paquete;
 	}
 	
+	@GetMapping("/getPaquetesXAsignar")
+	public PaqueteDaoResponse getPaquetesXAsignar() {
+		PaqueteJDBC paqueteJDBC = new PaqueteJDBC();
+		PaqueteDaoResponse paqueteDaoResponse = new PaqueteDaoResponse();
+		List<Paquete> listaPaquetes = new ArrayList<>();
+		try {
+			listaPaquetes = paqueteJDBC.getPaquetesXAsignar();
+			paqueteDaoResponse.setCodigo("0");
+			paqueteDaoResponse.setDescripcion("success");
+			paqueteDaoResponse.setPaquete(listaPaquetes);
+
+		} catch (SQLException e) {
+			paqueteDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
+			paqueteDaoResponse.setDescripcion(e.getMessage());
+		}
+
+		return paqueteDaoResponse;
+	}
+	
 	@GetMapping("/getDetallePaquete")
 	public DetaPaqueteDaoResponse getDetallePaquete(@RequestParam(value = "idPaquete", required = true) String idPaquete) {
 		DetaPaqueteJDBC detaPaqueteJDBC = new DetaPaqueteJDBC();

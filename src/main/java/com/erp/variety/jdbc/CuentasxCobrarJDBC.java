@@ -221,7 +221,10 @@ public class CuentasxCobrarJDBC extends AbstractJDBC {
 		SqlConn sconn = new SqlConn();
 		Connection conn = sconn.getConnection();
 		ResultSet rs;
-		String query = "SELECT A.*, SUM(A.saldo) AS saldoTotal FROM (\r\n"
+		String query = "SELECT A.*, \r\n"
+				+ "(SELECT SUM(saldo) FROM dbo.Paquete WHERE entregado = 1 AND IdCliente = ?) -\r\n"
+				+ "(SELECT ISNULL(SUM(MontoPagado),0) FROM dbo.Cobro WHERE IdCliente = ?) AS saldoTotal \r\n"
+				+ "FROM (\r\n"
 				+ "SELECT Descripcion AS descripcion,\r\n"
 				+ "pCosto AS debito,\r\n"
 				+ "0 AS credito,\r\n"
@@ -249,6 +252,8 @@ public class CuentasxCobrarJDBC extends AbstractJDBC {
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, idCliente);
+			ps.setString(2, idCliente);
+			ps.setString(3, idCliente);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Movimientos movimientos = new Movimientos();
@@ -260,6 +265,7 @@ public class CuentasxCobrarJDBC extends AbstractJDBC {
 				cliente.setIdCliente(rs.getString("idCliente"));
 				cliente.setNombreCliente(rs.getString("nombreCliente"));
 				movimientos.setFechaMovimiento(rs.getDate("fechaMovimiento"));
+				movimientos.setSaldoTotal(rs.getBigDecimal("saldoTotal"));
 				movimientos.setCliente(cliente);
 				listaMovimientos.add(movimientos);
 			}

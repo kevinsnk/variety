@@ -218,7 +218,7 @@ public class DetaPaqueteJDBC extends AbstractJDBC {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, paquete);
 			rs = ps.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				DetaPaquete detaPaquete = new DetaPaquete();
 				detaPaquete.setIdDetaPaquete(rs.getInt("idDetapaquete"));
 				detaPaquete.setIdPaquete(rs.getString("idPaquete"));

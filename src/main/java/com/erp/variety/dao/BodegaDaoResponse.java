@@ -14,9 +14,8 @@ import lombok.Setter;
 
 public class BodegaDaoResponse {
 	
-	public String IdBodega;
-	public String Descripcion;
-	public String UbicacionFi;
+	public String codigo;
+	public String descripcion;
 	public List<Bodega> bodega;
 
 }

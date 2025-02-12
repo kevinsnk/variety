@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.variety.dao.CuentasxCobrarDaoResponse;
@@ -15,10 +16,8 @@ import com.erp.variety.dao.PedidosDaoRequest;
 import com.erp.variety.dao.PedidosDaoResponse;
 import com.erp.variety.jdbc.CuentasxCobrarJDBC;
 import com.erp.variety.jdbc.PedidosJDBC;
-import com.erp.variety.model.Cobros;
 import com.erp.variety.model.Movimientos;
 import com.erp.variety.model.Paquete;
-import com.erp.variety.model.Pedidos;
 
 @RestController
 @RequestMapping("/cxc")
@@ -44,7 +43,7 @@ public class CuentasxCobrarController {
 	}
 	
 	@GetMapping("/getMovimientosByClient")
-	public CuentasxCobrarDaoResponse getMovimientosByClient(@RequestBody String idCliente) {
+	public CuentasxCobrarDaoResponse getMovimientosByClient(@RequestParam(value = "idCliente", required = true) String idCliente) {
 		CuentasxCobrarJDBC cuentasxCobrarJDBC = new CuentasxCobrarJDBC();
 		CuentasxCobrarDaoResponse cuentasxCobrarDaoResponse = new CuentasxCobrarDaoResponse();
 		List<Movimientos> listaMovimientos = new ArrayList<>();

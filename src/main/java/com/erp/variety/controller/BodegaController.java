@@ -7,12 +7,16 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.erp.variety.dao.BodegaDaoRequest;
 import com.erp.variety.dao.BodegaDaoResponse;
 import com.erp.variety.jdbc.BodegaJDBC;
 import com.erp.variety.model.Bodega;
 
+@RestController
+@RequestMapping("/bodegas")
 public class BodegaController {
 
 	@GetMapping("/getAll")
@@ -22,11 +26,11 @@ public class BodegaController {
 		List<Bodega> listaBodega = new ArrayList<>();
 		try {
 			listaBodega = bodegaJDBC.findAll();
-			bodegaDaoResponse.setIdBodega("0");
+			bodegaDaoResponse.setCodigo("0");
 			bodegaDaoResponse.setDescripcion("success");
 			bodegaDaoResponse.setBodega(listaBodega);
 		} catch (SQLException e) {
-			bodegaDaoResponse.setIdBodega(String.valueOf(e.getErrorCode()));
+			bodegaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			bodegaDaoResponse.setDescripcion(e.getMessage());
 		}
 		
@@ -44,11 +48,11 @@ public class BodegaController {
 			if(bodega != null) {
 				listaBodega.add(bodega);
 			}
-			bodegaDaoResponse.setIdBodega("0");
+			bodegaDaoResponse.setCodigo("0");
 			bodegaDaoResponse.setDescripcion("success");
 			bodegaDaoResponse.setBodega(listaBodega);
 		} catch (SQLException e) {
-			bodegaDaoResponse.setIdBodega(String.valueOf(e.getErrorCode()));
+			bodegaDaoResponse.setCodigo(String.valueOf(e.getErrorCode()));
 			bodegaDaoResponse.setDescripcion(e.getMessage());
 		}
 		return bodegaDaoResponse;
@@ -68,12 +72,12 @@ public class BodegaController {
 			if(codigoRespuesta.equals("0")) {
 				bodegaDaoResponse.setDescripcion("Registro guardado exitosamente");
 			}else {
-				bodegaDaoResponse.setDescripcion("Error al querer guardar el nuevo cliente en la tabla");
+				bodegaDaoResponse.setDescripcion("Error al querer guardar el nuevo bodega en la tabla");
 			}
-			bodegaDaoResponse.setIdBodega(codigoRespuesta);
+			bodegaDaoResponse.setCodigo(codigoRespuesta);
 		} catch (Exception e) {
 			e.printStackTrace();
-			bodegaDaoResponse.setIdBodega(codigoRespuesta);
+			bodegaDaoResponse.setCodigo(codigoRespuesta);
 			bodegaDaoResponse.setDescripcion(e.getMessage());
 		}
 		
@@ -90,11 +94,11 @@ public class BodegaController {
 			if(codigoRespuesta.equals("0")) {
 				bodegaDaoResponse.setDescripcion("Registro editado exitosamente");
 			}else {
-				bodegaDaoResponse.setDescripcion("Error al querer guardar los cambios del cliente en la tabla");
+				bodegaDaoResponse.setDescripcion("Error al querer guardar los cambios del bodega en la tabla");
 			}
-			bodegaDaoResponse.setIdBodega(codigoRespuesta);
+			bodegaDaoResponse.setCodigo(codigoRespuesta);
 		} catch (Exception e) {
-			bodegaDaoResponse.setIdBodega(codigoRespuesta);
+			bodegaDaoResponse.setCodigo(codigoRespuesta);
 			bodegaDaoResponse.setDescripcion(e.getMessage());
 			e.printStackTrace();
 		}
@@ -112,15 +116,15 @@ public class BodegaController {
 				if(codigoRespuesta.equals("0")) {
 					bodegaDaoResponse.setDescripcion("Registro eliminado exitosamente");
 				}else {
-					bodegaDaoResponse.setDescripcion("Error al querer eliminar cliente en la tabla");
+					bodegaDaoResponse.setDescripcion("Error al querer eliminar bodega en la tabla");
 				}
-				bodegaDaoResponse.setIdBodega(codigoRespuesta);
+				bodegaDaoResponse.setCodigo(codigoRespuesta);
 			}else {
-				bodegaDaoResponse.setIdBodega("1");
-				bodegaDaoResponse.setDescripcion("Debe de mandar un código de cliente valido.");
+				bodegaDaoResponse.setCodigo("1");
+				bodegaDaoResponse.setDescripcion("Debe de mandar un código de bodega valido.");
 			}
 		} catch (SQLException e) {
-			bodegaDaoResponse.setIdBodega(codigoRespuesta);
+			bodegaDaoResponse.setCodigo(codigoRespuesta);
 			bodegaDaoResponse.setDescripcion(e.getMessage());
 			e.printStackTrace();
 		}

@@ -18,4 +18,7 @@ public class Movimientos {
 	private BigDecimal saldo;
 	private Clientes cliente;
 	private Date fechaMovimiento;
+	
+	//Variable para guardar la suma de saldos y restar los cobros efectuados
+	private BigDecimal saldoTotal;
 }

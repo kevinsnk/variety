@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @Data
 public class Bodega {
-	public String IdBodega;
-	public String Descripcion;
-	public String UbicacionFi;
+	public String idBodega;
+	public String descripcion;
+	public String ubicacionFi;
 	
 }
