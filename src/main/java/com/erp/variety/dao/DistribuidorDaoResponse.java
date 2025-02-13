@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-
 public class DistribuidorDaoResponse {
 	public String codigo;
 	public String descripcion;

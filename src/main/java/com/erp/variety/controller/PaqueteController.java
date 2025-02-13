@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.erp.variety.dao.AsignarPaqueteDaoRequest;
 import com.erp.variety.dao.DetaPaqueteDaoResponse;
 import com.erp.variety.dao.PaqueteDaoResponse;
 import com.erp.variety.jdbc.DetaPaqueteJDBC;
@@ -180,6 +181,31 @@ public class PaqueteController {
 			paqueteDaoResponse.setCodigo(codigoRespuesta);
 			paqueteDaoResponse.setDescripcion(e.getMessage());
 			e.printStackTrace();
+		}
+		return paqueteDaoResponse;
+	}
+	
+	@PostMapping("/asignarPaquetes")
+	public PaqueteDaoResponse asignarPaquetes(@RequestBody AsignarPaqueteDaoRequest paquetes) {
+		PaqueteJDBC paqueteJDBC = new PaqueteJDBC();
+		PaqueteDaoResponse paqueteDaoResponse = new PaqueteDaoResponse();
+		String codigoRespuesta = "0";
+
+		try {
+			for(Paquete paquete : paquetes.getListaPaquetes()) {
+				codigoRespuesta = paqueteJDBC.asignarBodega(paquetes.idBodega, paquete.getIdPaquete());
+			}
+			
+			if (codigoRespuesta.equals("0")) {
+				paqueteDaoResponse.setDescripcion("Registro editado exitosamente");
+			} else {
+				paqueteDaoResponse.setDescripcion("Error al querer guardar los cambios del paquete en la tabla");
+			}
+			paqueteDaoResponse.setCodigo(codigoRespuesta);
+		} catch (Exception e) {
+			paqueteDaoResponse.setCodigo(codigoRespuesta);
+			paqueteDaoResponse.setDescripcion(e.getMessage());
+
 		}
 		return paqueteDaoResponse;
 	}

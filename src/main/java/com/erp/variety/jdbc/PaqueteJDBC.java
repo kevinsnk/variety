@@ -258,4 +258,33 @@ public class PaqueteJDBC extends AbstractJDBC{
 		return correlativo;
 	}
 	
+	public String asignarBodega(String idBodega, String idPaquetes) throws SQLException {
+		String codigoRespuesta = "0";
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		String query = "UPDATE dbo.Paquete\r\n"
+				+ "SET IdBodega= ? \r\n"
+				+ "WHERE IdPaquete IN(?)";
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, idBodega);
+			ps.setString(2, idPaquetes);
+			
+			ps.executeUpdate();
+			conn.commit();
+		} catch (Exception e) {
+			conn.rollback();
+			e.printStackTrace();
+			codigoRespuesta = "1";
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return codigoRespuesta;
+	}
 }
