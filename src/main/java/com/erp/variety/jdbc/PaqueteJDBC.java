@@ -186,7 +186,7 @@ public class PaqueteJDBC extends AbstractJDBC{
 				+ "fecha_asignacion= ?, \r\n"
 				+ "IdBodega= ?, \r\n"
 				+ "entregado= ?, \r\n"
-				+ "pagoafecha= ?, \r\n"
+				//+ "pagoafecha= ?, \r\n"
 				+ "IdCliente= ? \r\n"
 				+ "WHERE IdPaquete = ?";
 
@@ -199,9 +199,13 @@ public class PaqueteJDBC extends AbstractJDBC{
 			ps.setDate(5, new Date(paquete.getFechaAsignacion().getTime()));
 			ps.setString(6, paquete.getIdBodega().getIdBodega());
 			ps.setString(7, paquete.getEntregado());
-			ps.setDate(8, new Date(paquete.getPagoaFecha().getTime()));
-			ps.setString(9, paquete.getCliente().getIdCliente());
-			ps.setString(10, paquete.getIdPaquete());
+//			if(paquete.getPagoaFecha() != null) {
+//				ps.setDate(8, new Date(paquete.getPagoaFecha().getTime()));
+//			}else {
+//				ps.setDate(8, null);
+//			}
+			ps.setString(8, paquete.getCliente().getIdCliente());
+			ps.setString(9, paquete.getIdPaquete());
 			
 
 			ps.executeUpdate();
@@ -286,5 +290,52 @@ public class PaqueteJDBC extends AbstractJDBC{
 		}
 		
 		return codigoRespuesta;
+	}
+	
+	public List<Paquete> getPaquetesXCliente(String idCliente) throws SQLException {
+		List<Paquete> listapaquete = new ArrayList<>();
+		SqlConn sconn = new SqlConn();
+		Connection conn = sconn.getConnection();
+		Statement st = null;
+		ResultSet rs;
+		String query = "SELECT p.IdPaquete, p.Descripcion, p.pCosto, p.pVenta, p.Saldo, p.fecha_asignacion, p.IdBodega,\r\n"
+				+ "p.entregado, p.pagoafecha, p.IdCliente\r\n"
+				+ "FROM dbo.Paquete p \r\n"
+				+ "WHERE IdCliente = ? \r\n"
+				+ "ORDER BY IdPaquete ASC";
+				
+		try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, idCliente);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Paquete paquete = new Paquete();
+				paquete.setIdPaquete(rs.getString("IdPaquete"));
+				paquete.setDescripcion(rs.getString("Descripcion"));
+				paquete.setPCosto(rs.getBigDecimal("pCosto"));
+				paquete.setPVenta(rs.getBigDecimal("pVenta"));
+				paquete.setSaldo(rs.getBigDecimal("Saldo"));
+				paquete.setFechaAsignacion(rs.getDate("fecha_asignacion"));
+				Bodega bodega = new Bodega();
+				bodega.setIdBodega(rs.getString("IdBodega"));
+				paquete.setIdBodega(bodega);
+				paquete.setEntregado(rs.getString("entregado"));
+				Clientes cliente = new Clientes();
+				cliente.setIdCliente(rs.getString("IdCliente"));
+				paquete.setCliente(cliente);
+				paquete.setPagoaFecha(rs.getDate("pagoafecha"));
+				listapaquete.add(paquete);
+			}
+		} catch (Exception e) {
+			listapaquete = null;
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return listapaquete;
 	}
 }
